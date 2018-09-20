@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AdminLogin extends HttpServlet {
 
-    Connection conn = null;
+    private Connection conn = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
 
@@ -42,33 +42,33 @@ public class AdminLogin extends HttpServlet {
             out.println("<html><head>");
             out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
             out.println("<title>AdminLogin Servlet</title></head>");
+            out.println("Log");
             /* TODO output your page here. You may use following sample code. */
             String username = request.getParameter("name");
             String password = request.getParameter("pwd");
 
-            if (username == null || username == "") {
-                out.println("<p>Username cannot be empty</p>");
-            } else if (password == null || password == "") {
-                out.println("<p>Password cannot be</p>");
-            }
-
             ConnectionManager conman = new ConnectionManager();
             conn = conman.getConnection();
-
+            out.println("Log2");
             try {
+                out.println("Log2.1");
                 String sql = "SELECT * FROM `admins` WHERE `Admin Name`=? and `Admin Password` = ?;";
+                out.println("Log2.2");
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, username);
                 stmt.setString(2, password);
+                out.println("Log2.3");
                 rs = stmt.executeQuery();
+                out.println("Log2.3");
                 if (rs.next()) {
+                    out.println("Log3");
                     out.println("<p>Username and password found</p>");
                     response.sendRedirect("mainpage.html");
                 } else {
                     out.println("<p>Username and password not found</p>");
                 }
             } catch (SQLException ex) {
-                out.println("<p>" + ex + "</p>");
+                out.println(ex);
             } finally {
                 out.close();
             }
