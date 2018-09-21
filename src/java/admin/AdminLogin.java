@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -49,21 +50,21 @@ public class AdminLogin extends HttpServlet {
 
             ConnectionManager conman = new ConnectionManager();
             conn = conman.getConnection();
-            out.println("Log2");
             try {
                 out.println("Log2.1");
                 String sql = "SELECT * FROM `admins` WHERE `Admin Name`=? and `Admin Password` = ?;";
-                out.println("Log2.2");
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, username);
                 stmt.setString(2, password);
-                out.println("Log2.3");
                 rs = stmt.executeQuery();
-                out.println("Log2.3");
                 if (rs.next()) {
-                    out.println("Log3");
                     out.println("<p>Username and password found</p>");
                     response.sendRedirect("mainpage.html");
+                    HttpSession session = request.getSession();
+                    
+                    synchronized (session){
+                        session.setAttribute("adminname", username);
+                    }
                 } else {
                     out.println("<p>Username and password not found</p>");
                 }

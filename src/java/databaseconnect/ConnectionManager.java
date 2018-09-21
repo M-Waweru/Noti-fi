@@ -29,7 +29,7 @@ public class ConnectionManager {
             }
         } catch (ClassNotFoundException ex) {
             // log an exception. for example:
-            System.out.println("Driver not found.");
+            System.out.println("Driver not found." + ex);
         }
         System.out.println("Success");
         return con;
