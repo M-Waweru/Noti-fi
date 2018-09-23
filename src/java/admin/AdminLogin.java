@@ -10,6 +10,7 @@ import databaseconnect.*;
 import java.sql.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +40,6 @@ public class AdminLogin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html><head>");
-            out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
-            out.println("<title>AdminLogin Servlet</title></head>");
-            out.println("Log");
             /* TODO output your page here. You may use following sample code. */
             String username = request.getParameter("name");
             String password = request.getParameter("pwd");
@@ -51,7 +47,6 @@ public class AdminLogin extends HttpServlet {
             ConnectionManager conman = new ConnectionManager();
             conn = conman.getConnection();
             try {
-                out.println("Log2.1");
                 String sql = "SELECT * FROM `admins` WHERE `Admin Name`=? and `Admin Password` = ?;";
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, username);
@@ -59,21 +54,23 @@ public class AdminLogin extends HttpServlet {
                 rs = stmt.executeQuery();
                 if (rs.next()) {
                     out.println("<p>Username and password found</p>");
-                    response.sendRedirect("mainpage.html");
                     HttpSession session = request.getSession();
-                    
-                    synchronized (session){
+
+                    synchronized (session) {
                         session.setAttribute("adminname", username);
                     }
+                    response.sendRedirect("mainpage.html");
                 } else {
-                    out.println("<p>Username and password not found</p>");
+                    out.println("<p style='color: red;'>Username and password not found</p>");
+                    RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
+                    rs.include(request, response);
                 }
             } catch (SQLException ex) {
                 out.println(ex);
             } finally {
                 out.close();
             }
-            
+
         }
     }
 
