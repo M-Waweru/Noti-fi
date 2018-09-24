@@ -4,9 +4,17 @@
         <servlet-name>AdminLogin</servlet-name>
         <servlet-class>admin.AdminLogin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BroadcastNot</servlet-name>
+        <servlet-class>admin.BroadcastNot</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminLogin</servlet-name>
         <url-pattern>/AdminLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BroadcastNot</servlet-name>
+        <url-pattern>/BroadcastNot</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
