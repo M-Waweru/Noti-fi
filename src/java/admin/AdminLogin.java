@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package admin;
-
-import com.sun.xml.ws.transport.tcp.util.ConnectionManagementSettings;
 import databaseconnect.*;
 import java.sql.*;
 import java.io.IOException;

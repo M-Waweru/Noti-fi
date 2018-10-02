@@ -32,8 +32,8 @@ public class BroadcastNot extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            String subject = request.getParameter("notsubject");
             String content = request.getParameter("notcontent");
-            out.println(content);
             
             BroadcastServer server = new BroadcastServer();
             out.println(server.sendEcho(content));

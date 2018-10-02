@@ -5,6 +5,8 @@
  */
 package BroadcastServer;
 
+import notifications.*;
+
 /**
  *
  * @author mathe
@@ -44,6 +46,44 @@ public class BroadcastServer {
             System.out.println(ex);
             return "Error";
         }
+    }
+
+    public String sendNotObject(String subject, String content) {
+
+        NotificationCreation notcreate = new NotificationCreation(subject, content, 0, 0);
+
+        notcreate.saveNotification();
+        //Converting object to byte array
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutput out = null;
+        try {
+            out = new ObjectOutputStream(bos);
+            out.writeObject(notcreate);
+            out.flush();
+            byte[] notifiBytes = bos.toByteArray();
+            
+            
+            //Broadcast byte array
+            buf = notifiBytes;
+            DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 4445);
+            socket.setBroadcast(true);
+            socket.send(packet);
+            packet = new DatagramPacket(buf, buf.length);
+            socket.receive(packet);
+            socket.setSoTimeout(10000);
+            String received = new String(packet.getData(), 0, packet.getLength());
+            return "Success";
+            
+        } catch (IOException ex) {
+            
+        } finally {
+            try {
+                bos.close();
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+        }
+        return null;
     }
 
     public void close() {
