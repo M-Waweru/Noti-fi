@@ -52,10 +52,12 @@ public class AdminLogin extends HttpServlet {
                 rs = stmt.executeQuery();
                 if (rs.next()) {
                     out.println("<p>Username and password found</p>");
+                    int userno = rs.getInt(1);
                     HttpSession session = request.getSession();
-
+                    
                     synchronized (session) {
                         session.setAttribute("adminname", username);
+                        session.setAttribute("adminno", userno);
                     }
                     response.sendRedirect("mainpage.html");
                 } else {

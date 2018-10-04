@@ -73,5 +73,6 @@ public class BroadcastClient extends Thread {
     public static void main(String[] args) {
         BroadcastClient client = new BroadcastClient();
         client.start();
+        client.getReceived();
     }
 }

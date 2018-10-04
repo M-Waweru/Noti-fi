@@ -36,7 +36,7 @@ public class BroadcastNot extends HttpServlet {
             String content = request.getParameter("notcontent");
             
             BroadcastServer server = new BroadcastServer();
-            out.println(server.sendEcho(content));
+            out.println(server.sendNotifiObject(subject,content));
             server.close();
         }
     }

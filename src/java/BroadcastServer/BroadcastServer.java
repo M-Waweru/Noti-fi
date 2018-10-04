@@ -48,11 +48,11 @@ public class BroadcastServer {
         }
     }
 
-    public String sendNotObject(String subject, String content) {
-
-        NotificationCreation notcreate = new NotificationCreation(subject, content, 0, 0);
-
-        notcreate.saveNotification();
+    public String sendNotifiObject(String subject, String content) {
+        String successflag = null;
+        
+        Notification notcreate = new Notification(subject, content, 1, 1);
+        System.out.println("Object: " + notcreate);
         //Converting object to byte array
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutput out = null;
@@ -61,7 +61,7 @@ public class BroadcastServer {
             out.writeObject(notcreate);
             out.flush();
             byte[] notifiBytes = bos.toByteArray();
-            
+            System.out.println("Bytes: " + notifiBytes);
             
             //Broadcast byte array
             buf = notifiBytes;
@@ -72,18 +72,13 @@ public class BroadcastServer {
             socket.receive(packet);
             socket.setSoTimeout(10000);
             String received = new String(packet.getData(), 0, packet.getLength());
-            return "Success";
+            System.out.println("" + received);
+            successflag = "Success";
             
         } catch (IOException ex) {
-            
-        } finally {
-            try {
-                bos.close();
-            } catch (IOException ex) {
-                // ignore close exception
-            }
+            System.out.println("Exception" + ex);
         }
-        return null;
+        return successflag;
     }
 
     public void close() {
@@ -92,5 +87,6 @@ public class BroadcastServer {
 
     public static void main(String[] args) {
         BroadcastServer server = new BroadcastServer();
+        server.sendNotifiObject("Hello", "there");
     }
 }
