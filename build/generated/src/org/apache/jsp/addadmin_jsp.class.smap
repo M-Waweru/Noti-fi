@@ -1,0 +1,14 @@
+SMAP
+addadmin_jsp.java
+JSP
+*S JSP
+*F
++ 0 addadmin.jsp
+addadmin.jsp
+*L
+5,30:52
+35,5:13
+39,4:82
+43,34:87
+76,8:121
+*E

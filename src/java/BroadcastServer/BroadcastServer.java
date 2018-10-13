@@ -70,7 +70,7 @@ public class BroadcastServer {
             socket.send(packet);
             packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
-            socket.setSoTimeout(10000);
+            socket.setSoTimeout(1000);
             String received = new String(packet.getData(), 0, packet.getLength());
             System.out.println("" + received);
             successflag = "Success";
