@@ -1,6 +1,6 @@
 <%-- 
-    Document   : account
-    Created on : Oct 22, 2018, 1:21:35 PM
+    Document   : notifications
+    Created on : Oct 24, 2018, 2:23:04 PM
     Author     : Mathenge
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title>JSP Page</title>
     </head>
     <body>
         <h1>Hello World!</h1>

@@ -38,7 +38,7 @@ public class Publisher {
         return encodedFile;
     }
 
-    public void publish(String subject, String content) throws XMPPException.XMPPErrorException, SmackException.NotConnectedException,
+    public void publish(String subject, String content, String imagedir) throws XMPPException.XMPPErrorException, SmackException.NotConnectedException,
             InterruptedException, SmackException.NoResponseException {
         // Create a pubsub manager using an existing XMPPConnection
         PubSubManager pubSubManager = PubSubManager.getInstance(conn);
@@ -50,22 +50,14 @@ public class Publisher {
         form.setPresenceBasedDelivery(false);          //notify subscribers even when they are offline
         form.setPublishModel(PublishModel.publishers);       //only publishers (owner) can post items to this node
 
-        String filepath = "C:\\Users\\Mathenge\\Pictures\\Saved Pictures\\make-art-not-war.jpg";
+        String filepath = imagedir;
         File file = new File(filepath);
         String imageBase64 = encodeFileToBase64Binary(file);
 
         LeafNode leafNode;
-        String msg = "<studentcouncil@strathmore.edu>\n" +
+        String msg = ""+subject+"\n" +
                 "\t\n" +
-                "\t\n" +
-                "to AllStudents\n" +
-                "Good afternoon Stratizens,\n" +
-                "\n" +
-                "Make your way to the auditorium at 2pm for an event that SUITSA is holding an information security forum.\n" +
-                "\n" +
-                "Attached is the poster for more details.\n" +
-                "Register now to attend here: http://bit.ly/infosecday2018\n" +
-                "Kind Regards,";
+                "\t\n" + content;
         StandardExtensionElement extFileNameBuilder = StandardExtensionElement.builder(
                 "file", "jabber:client")
                 .addElement("base64Bin", imageBase64)
@@ -140,7 +132,7 @@ public class Publisher {
         Publisher publisher;
         try {
             publisher = new Publisher("admin", "admin");
-            publisher.publish("Hello", "there");
+//            publisher.publish("Hello", "there");
         } catch (InterruptedException | XMPPException | SmackException | IOException e) {
             e.printStackTrace();
         }

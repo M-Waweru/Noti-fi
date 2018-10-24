@@ -24,8 +24,8 @@ and open the template in the editor.
         %>
     </head>
     <body>
-        <div class="container">
-            <form method="POST" action="BroadcastNot" class="col s12" enctype = "multipart/form-data">
+    <div class="container">
+            <form method="POST" action="UploadServlet" class="col s12" enctype = "multipart/form-data">
                 <div class="row">
                     <h3>Broadcast a Notification</h3>
                     <p>Enter notification details below</p>

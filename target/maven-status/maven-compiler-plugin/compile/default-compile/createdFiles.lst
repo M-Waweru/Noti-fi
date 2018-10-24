@@ -1,11 +1,12 @@
-notifications\NotificationCreation.class
-admin\Newserv.class
-admin\AdminLogin.class
 admin\Settings.class
+admin\UploadServlet.class
 broadcast\Util.class
-databaseconnect\ConnectionManager.class
 broadcast\BroadcastServer.class
-notifications\Notification.class
 admin\BroadcastNot.class
+notifications\NotificationCreation.class
+admin\AdminLogin.class
+databaseconnect\ConnectionManager.class
+notifications\Notification.class
 broadcast\Publisher.class
 admin\AdminOperations.class
+secure\Hashing.class

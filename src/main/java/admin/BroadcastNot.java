@@ -40,12 +40,10 @@ public class BroadcastNot extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            String filepath = request.getParameter("notimage");
             String type = request.getParameter("nottype");
             String subject = request.getParameter("notsubject");
             String content = request.getParameter("notcontent");
             
-            out.println(""+filepath);
             out.println(""+subject);
 
 //            Publisher publish;

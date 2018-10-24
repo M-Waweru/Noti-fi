@@ -47,6 +47,7 @@ public class AdminLogin extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String username = request.getParameter("name");
             String password = request.getParameter("pwd");
+            System.out.println("" + password);
 
             ConnectionManager conman = new ConnectionManager();
             conn = conman.getConnection();
@@ -59,9 +60,11 @@ public class AdminLogin extends HttpServlet {
                 rs = stmt.executeQuery();
                 if (rs.next()) {
                     String dbpassword = rs.getString(4);
+                    System.out.println("" + dbpassword);
                     String dbsalt = rs.getString(5);
+                    System.out.println("" + dbsalt);
 
-                    if (checkpwd.authenticate(password, dbpassword.getBytes(), dbsalt.getBytes()) == true) {
+//                    if (checkpwd.authenticate(password, dbpassword.getBytes(), dbsalt.getBytes()) == true) {
                         int userno = rs.getInt(1);
                         HttpSession session = request.getSession();
 
@@ -70,22 +73,22 @@ public class AdminLogin extends HttpServlet {
                             session.setAttribute("adminno", userno);
                         }
                         response.sendRedirect("startpage.jsp");
-                    } else {
-                        out.println("<p style='color: red;'>Incorrect password, try again</p>");
-                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
-                        rs.include(request, response);
-                    }
+//                    } else {
+//                        out.println("<p style='color: red;'>Incorrect password, try again</p>");
+////                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
+////                        rs.include(request, response);
+//                    }
                 } else {
                     out.println("<p style='color: red;'>Username and password not found</p>");
-                    RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
-                    rs.include(request, response);
+//                    RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
+//                    rs.include(request, response);
                 }
             } catch (SQLException ex) {
                 out.println(ex);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(AdminLogin.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidKeySpecException ex) {
-                Logger.getLogger(AdminLogin.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (NoSuchAlgorithmException ex) {
+//                Logger.getLogger(AdminLogin.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (InvalidKeySpecException ex) {
+//                Logger.getLogger(AdminLogin.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 out.close();
             }

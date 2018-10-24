@@ -28,6 +28,9 @@ public class Hashing {
         // Encrypt the clear-text password using the same salt that was used to
         // encrypt the original password
         byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
+        System.out.println("Hasheduserpwd"+encryptedAttemptedPassword);
+        System.out.println("hasheddbpwd"+encryptedPassword);
+        System.out.println("salt"+salt);
 
         // Authentication succeeds if encrypted password that the user entered
         // is equal to the stored hash
@@ -74,8 +77,8 @@ public class Hashing {
             
             if (pwd.authenticate("1234", hashedpwd, salt)==true){
                 System.out.println("Success");
-                System.out.println(""+hashedpwd.toString());
-                System.out.println(""+salt.toString());
+                System.out.println("Hashed"+hashedpwd.toString());
+                System.out.println("salt"+salt.toString());
             } else {
                 System.out.println("Fail");
             }
