@@ -18,7 +18,7 @@
     <body>
         <nav class="blue-grey">
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo">Admin Module</a>
+                <a href="startpage.jsp" class="brand-logo">Admin Module</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="badges.html">About</a></li>
                 </ul>

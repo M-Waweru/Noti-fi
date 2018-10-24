@@ -7,6 +7,8 @@ package admin;
 
 import broadcast.Publisher;
 import broadcast.*;
+import java.io.File;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -37,29 +39,27 @@ public class BroadcastNot extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
+            
+            String filepath = request.getParameter("notimage");
+            String type = request.getParameter("nottype");
             String subject = request.getParameter("notsubject");
             String content = request.getParameter("notcontent");
+            
+            out.println(""+filepath);
+            out.println(""+subject);
 
-            Publisher publish;
-            try {
-                publish = new Publisher("admin", "admin");
-                publish.publish(subject, content);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SmackException ex) {
-                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (XMPPException ex) {
-                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            Publisher publish;
+//            try {
+//                publish = new Publisher("admin", "admin");
+//                publish.publish(subject, content);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (SmackException ex) {
+//                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (XMPPException ex) {
+//                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
-
-//            BroadcastServer server = new BroadcastServer();
-//            out.println(server.sendEcho(content));
-//            server.close();
-//            BroadcastServer server = new BroadcastServer();
-//            out.println(server.sendEcho(content));
-//            server.close();
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

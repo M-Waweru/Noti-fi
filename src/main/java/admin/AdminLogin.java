@@ -4,10 +4,16 @@
  * and open the template in the editor.
  */
 package admin;
+
+import secure.*;
 import databaseconnect.*;
 import java.sql.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -44,22 +50,31 @@ public class AdminLogin extends HttpServlet {
 
             ConnectionManager conman = new ConnectionManager();
             conn = conman.getConnection();
+            Hashing checkpwd = new Hashing();
+
             try {
-                String sql = "SELECT * FROM `admins` WHERE `Admin Name`=? and `Admin Password` = ?;";
+                String sql = "SELECT * FROM `admins` WHERE `Admin Name`=?";
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, username);
-                stmt.setString(2, password);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
-                    out.println("<p>Username and password found</p>");
-                    int userno = rs.getInt(1);
-                    HttpSession session = request.getSession();
-                    
-                    synchronized (session) {
-                        session.setAttribute("adminname", username);
-                        session.setAttribute("adminno", userno);
+                    String dbpassword = rs.getString(4);
+                    String dbsalt = rs.getString(5);
+
+                    if (checkpwd.authenticate(password, dbpassword.getBytes(), dbsalt.getBytes()) == true) {
+                        int userno = rs.getInt(1);
+                        HttpSession session = request.getSession();
+
+                        synchronized (session) {
+                            session.setAttribute("adminname", username);
+                            session.setAttribute("adminno", userno);
+                        }
+                        response.sendRedirect("startpage.jsp");
+                    } else {
+                        out.println("<p style='color: red;'>Incorrect password, try again</p>");
+                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
+                        rs.include(request, response);
                     }
-                    response.sendRedirect("startpage.jsp");
                 } else {
                     out.println("<p style='color: red;'>Username and password not found</p>");
                     RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
@@ -67,6 +82,10 @@ public class AdminLogin extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 out.println(ex);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(AdminLogin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvalidKeySpecException ex) {
+                Logger.getLogger(AdminLogin.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 out.close();
             }
