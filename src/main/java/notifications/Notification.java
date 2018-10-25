@@ -13,25 +13,33 @@ import java.io.*;
  *
  * @author mathe
  */
-public class Notification implements Serializable{
+public class Notification implements Serializable {
 
-    private String subject, content, datecreated;
-    private int adminno, notification_type;
+    private String subject, content, datecreated, imagedir;
+    private int adminno, type, notificationno;
 
-    public Notification(String subject, String content, int adminno, int type) {
+    public Notification(String subject, String content, int adminno, int type, String imagedir) {
         this.subject = subject;
         this.content = content;
         this.adminno = adminno;
-        this.notification_type = type;
+        this.type = type;
         this.datecreated = generateDateCreated();
-        
-        NotificationCreation createnote = new NotificationCreation(subject, content, adminno, type, datecreated);
-    }
-    
-    public static void main(String[] args) {
-        new Notification("Hello", "Hello", 1, 1);
+        this.imagedir = imagedir;
     }
 
+    public int saveNotification() {
+        NotificationCreation createnote = new NotificationCreation(subject, content, adminno, type, datecreated, imagedir);
+        int notificationno = createnote.getNotificationNo();
+        return notificationno;
+    }
+
+    public int getNotificationno() {
+        return notificationno;
+    }
+
+//    public static void main(String[] args) {
+//        new Notification("Hello", "Hello", 1, 1);
+//    }
     public String getSubject() {
         return subject;
     }
@@ -45,7 +53,7 @@ public class Notification implements Serializable{
     }
 
     public int getNotification_type() {
-        return notification_type;
+        return type;
     }
 
     public String getDatecreated() {

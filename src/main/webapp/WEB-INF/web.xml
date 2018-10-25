@@ -16,6 +16,10 @@
         <servlet-name>Newserv</servlet-name>
         <servlet-class>admin.Newserv</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ScheduleNot</servlet-name>
+        <servlet-class>broadcast.ScheduleNot</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminLogin</servlet-name>
         <url-pattern>/AdminLogin</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>Newserv</servlet-name>
         <url-pattern>/Newserv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ScheduleNot</servlet-name>
+        <url-pattern>/ScheduleNot</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

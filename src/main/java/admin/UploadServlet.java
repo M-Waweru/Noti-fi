@@ -6,6 +6,7 @@
 package admin;
 
 import broadcast.Publisher;
+import schedule.*;
 import java.io.*;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -25,7 +26,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import notifications.Notification;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 
@@ -65,6 +68,10 @@ public class UploadServlet extends HttpServlet {
         final Part filePart = request.getPart("notimage");
         final String fileName = getFileName(filePart);
         String imagedir = path + "\\" + fileName;
+        String scheduledate = request.getParameter("schnotdate");
+
+        HttpSession session = request.getSession();
+        int adminno = (int) session.getAttribute("adminno");
 
         OutputStream out = null;
         InputStream filecontent = null;
@@ -84,20 +91,38 @@ public class UploadServlet extends HttpServlet {
             writer.println("New file " + fileName + " created at " + path);
             LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
                     new Object[]{fileName, path});
-            writer.println(""+imagedir);
-            
-            Publisher publish;
-            try {
-                publish = new Publisher("admin", "admin");
-                publish.publish(subject, content, imagedir);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SmackException ex) {
-                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (XMPPException ex) {
-                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
+            writer.println("" + imagedir);
+
+            if (request.getParameter("later") != null) {
+                Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
+
+                int notifino = notifi.saveNotification();
+                if (notifino > 0) {
+                    ScheduleCreation schedulenotifi = new ScheduleCreation(notifino, scheduledate);
+
+                    if (schedulenotifi.saveSchedule() == true) {
+                        request.setAttribute("message", "You have successfully scheduled this notification");
+                        request.getRequestDispatcher("successmodal.jsp").forward(request, response);
+                    }
+                }
+
+            } else {
+                Publisher publish;
+                try {
+                    publish = new Publisher("admin", "admin");
+                    publish.publish(subject, content, imagedir);
+                    Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
+                    request.setAttribute("message", "You have successfully broadcasted this notification");
+                    request.getRequestDispatcher("successmodal.jsp").forward(request, response);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SmackException ex) {
+                    Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (XMPPException ex) {
+                    Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            
+
         } catch (FileNotFoundException fne) {
             writer.println("You either did not specify a file to upload or are "
                     + "trying to upload a file to a protected or nonexistent "

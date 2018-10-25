@@ -51,14 +51,14 @@ public class BroadcastServer {
     public String sendNotifiObject(String subject, String content) {
         String successflag = null;
         
-        Notification notcreate = new Notification(subject, content, 1, 1);
-        System.out.println("Object: " + notcreate);
+//        Notification notcreate = new Notification(subject, content, 1, 1);
+//        System.out.println("Object: " + notcreate);
         //Converting object to byte array
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutput out = null;
         try {
             out = new ObjectOutputStream(bos);
-            out.writeObject(notcreate);
+//            out.writeObject(notcreate);
             out.flush();
             byte[] notifiBytes = bos.toByteArray();
             System.out.println("Bytes: " + notifiBytes);

@@ -24,7 +24,7 @@ and open the template in the editor.
         %>
     </head>
     <body>
-    <div class="container">
+        <div class="container">
             <form method="POST" action="UploadServlet" class="col s12" enctype = "multipart/form-data">
                 <div class="row">
                     <h3>Broadcast a Notification</h3>
@@ -33,14 +33,14 @@ and open the template in the editor.
                 <div class="row">
                     <div class="input-field col s8">
                         <i class="material-icons prefix">keyboard</i>
-                        <input name="notsubject" type="text">
+                        <input name="notsubject" type="text" required>
                         <label for="notsubject">Notification Subject</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s8">
                         <i class="material-icons prefix">class</i>
-                        <select name="nottype">
+                        <select name="nottype" required>
                             <option value="" disabled selected>Choose your option</option>
                             <%
                                 conn = conman.getConnection();
@@ -54,7 +54,7 @@ and open the template in the editor.
                                         String typename = rs.getString(2);
                                         String description = rs.getString(3);
 
-                                        out.println("<option value='" + typename + "'>" + typename + "</option>");
+                                        out.println("<option value='" + typeno + "'>" + typename + "</option>");
                                     }
                                 } catch (Exception ex) {
                                     ex.printStackTrace();
@@ -67,30 +67,53 @@ and open the template in the editor.
                 <div class="row">
                     <div class="input-field col s8">
                         <i class="material-icons prefix">mode_edit</i>
-                        <textarea name="notcontent" class="materialize-textarea"></textarea>
+                        <textarea name="notcontent" class="materialize-textarea" required></textarea>
                         <label for="notcontent">Notification Content</label>
                     </div>
                 </div>
-                <div class="file-field input-field col s8">
-                    <div class="btn">
-                        <span>Image</span>
-                        <input name="notimage" type="file">
-                    </div>
-                    <div class="file-path-wrapper col s8">
-                        <input class="file-path validate" type="text">
+                <div class="row">
+                    <div class="file-field input-field col s8">
+                        <div class="btn">
+                            <span>Image</span>
+                            <input name="notimage" type="file" required>
+                        </div>
+                        <div class="file-path-wrapper col s8">
+                            <input class="file-path validate" type="text" required>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                    <div class="input-field col s8">
+                        <i class="material-icons prefix">mode_edit</i>
+                        <input name="schnotdate" type="text" class="datepicker">                        
+                        <label for="schnotdate">When do you want to send this?</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn waves-effect waves-light" type="submit" name="now" value="Broadcast Now">Broadcast Now
                         <i class="material-icons right">send</i>
                     </button>
-                </div>
+                    <button class="btn waves-effect waves-light" type="submit" name="later" value="Schedule">Schedule Notification
+                        <i class="material-icons right">alarm</i>
+                    </button>
+                </div>  
             </form>
+        </div>
+        <div id="schedulemodal" class="modal" height="500px">
+            <div class="modal-content">
+                <h4>Schedule Notification</h4>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+            </div>
         </div>
     </body>
     <script type="text/javascript">
         $(document).ready(function () {
             $('select').formSelect();
+            $('.modal').modal();
+            $('.datepicker').datepicker();
         });
     </script>
 </html>
