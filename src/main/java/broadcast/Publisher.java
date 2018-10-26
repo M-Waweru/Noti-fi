@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 public class Publisher {
 
@@ -71,13 +72,21 @@ public class Publisher {
         message.addExtension(extFileNameBuilder);
 
         SimplePayload payload = new SimplePayload(message.toXML("").toString());
-        PayloadItem<SimplePayload> item = new PayloadItem<>("5", payload);
+        final PayloadItem<SimplePayload> item = new PayloadItem<>("5", payload);
         try {
             leafNode = pubSubManager.getNode("testNode");
+            final LeafNode finalLeafNode = leafNode;
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Scheduler scheduler = new Scheduler();
+                    scheduler.scheduleTask(finalLeafNode, TimeUnit.MINUTES, 1, item);
+                }
+            });
+            thread.start();
         } catch (XMPPException.XMPPErrorException | PubSubException.NotAPubSubNodeException e) {
             leafNode = (LeafNode) pubSubManager.createNode("testNode", form);
         }
-        leafNode.publish(item);
     }
 
     public AbstractXMPPConnection getConn() {
