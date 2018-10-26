@@ -89,7 +89,7 @@
                         </div>
                         <div class="card-action">
                             <span class="card-title activator grey-text text-darken-4">Notifications<i class="material-icons right">more_vert</i></span>
-                            <p><a href="broadcastnot.jsp">Click here</a></p>
+                            <p><a href="notifications.jsp">Click here</a></p>
                         </div>
                     </div>
                 </div>

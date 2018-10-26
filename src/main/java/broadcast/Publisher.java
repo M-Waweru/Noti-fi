@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Base64;
 
 public class Publisher {
+
     private AbstractXMPPConnection conn;
 
     private int sizeOfImageInBytes = 0;
@@ -55,9 +56,7 @@ public class Publisher {
         String imageBase64 = encodeFileToBase64Binary(file);
 
         LeafNode leafNode;
-        String msg = ""+subject+"\n" +
-                "\t\n" +
-                "\t\n" + content;
+        String msg = content;
         StandardExtensionElement extFileNameBuilder = StandardExtensionElement.builder(
                 "file", "jabber:client")
                 .addElement("base64Bin", imageBase64)
@@ -67,11 +66,10 @@ public class Publisher {
 
         Message message = new Message();
         message.setStanzaId();
-        message.setSubject("Student Council");
+        message.setSubject(subject);
         message.setBody(msg);
         message.addExtension(extFileNameBuilder);
 
-//        String xmlMsg = "<message xmlns='pubsub:test:test'>" + msg + "</message>";
         SimplePayload payload = new SimplePayload(message.toXML("").toString());
         PayloadItem<SimplePayload> item = new PayloadItem<>("5", payload);
         try {
@@ -80,48 +78,6 @@ public class Publisher {
             leafNode = (LeafNode) pubSubManager.createNode("testNode", form);
         }
         leafNode.publish(item);
-
-//        if (filepath != null) {
-//            if (file.exists()) {
-//                FileTransferManager fileTransferManager = FileTransferManager.getInstanceFor(conn);
-//                OutgoingFileTransfer fileTransfer = fileTransferManager.createOutgoingFileTransfer(conn.getUser());
-//                try {
-//                    fileTransfer.sendFile(file, "Image");
-//                } catch (SmackException e) {
-//                    e.printStackTrace();
-//                }
-//                while (!fileTransfer.isDone()) {
-//                    if (fileTransfer.getStatus().equals(FileTransfer.Status.error)) {
-//                        System.out.println("Error!!!" + fileTransfer.getError());
-//                    } else if (fileTransfer.getStatus().equals(FileTransfer.Status.cancelled)
-//                            || fileTransfer.getStatus().equals(FileTransfer.Status.refused)) {
-//                        System.out.println("Cancelled!!!! " + fileTransfer.getError());
-//                    }
-//                    try {
-//                        Thread.sleep(1000L);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                if (fileTransfer.getStatus().equals(FileTransfer.Status.cancelled)
-//                        || fileTransfer.getStatus().equals(FileTransfer.Status.refused)
-//                        || fileTransfer.getStatus().equals(FileTransfer.Status.error)) {
-//                    System.out.println("Refused or cancelled!!!" + fileTransfer.getError());
-//                } else {
-//                    System.out.println("Success");
-//                }
-//            }
-//        }
-
-//        try {
-//            leafNode = pubSubManager.getLeafNode("testNode");
-//            leafNode.deleteAllItems();
-//            pubSubManager.deleteNode("testNode");
-//        } catch (PubSubException.NotALeafNodeException e) {
-//            e.printStackTrace();
-//        } catch (PubSubException.NotAPubSubNodeException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public AbstractXMPPConnection getConn() {
