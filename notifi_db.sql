@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2018 at 01:48 PM
+-- Generation Time: Oct 26, 2018 at 12:37 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -32,15 +32,16 @@ CREATE TABLE `admins` (
   `Admin No` int(5) NOT NULL,
   `Admin Name` varchar(30) NOT NULL,
   `Description` varchar(50) NOT NULL,
-  `Admin Password` varchar(100) NOT NULL
+  `Admin Password` varchar(100) NOT NULL,
+  `Salt` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`Admin No`, `Admin Name`, `Description`, `Admin Password`) VALUES
-(1, 'Superuser', 'The ultimate admin', '1234');
+INSERT INTO `admins` (`Admin No`, `Admin Name`, `Description`, `Admin Password`, `Salt`) VALUES
+(1, 'Superuser', 'The ultimate admin', '[B@67117f44', '[B@5d3411d');
 
 -- --------------------------------------------------------
 
@@ -50,19 +51,27 @@ INSERT INTO `admins` (`Admin No`, `Admin Name`, `Description`, `Admin Password`)
 
 CREATE TABLE `notifications` (
   `Notification No` int(50) NOT NULL,
-  `Notification Subject` varchar(30) NOT NULL,
-  `Notification Content` varchar(200) NOT NULL,
+  `Notification Subject` varchar(100) NOT NULL,
+  `Notification Content` varchar(600) NOT NULL,
   `Admin No` int(5) NOT NULL,
   `Notification Type No` int(5) NOT NULL,
-  `Date created` varchar(30) NOT NULL
+  `Date created` varchar(30) NOT NULL,
+  `Image dir` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `notifications`
 --
 
-INSERT INTO `notifications` (`Notification No`, `Notification Subject`, `Notification Content`, `Admin No`, `Notification Type No`, `Date created`) VALUES
-(597, 'Hello', 'Hello', 1, 1, '2018-10-13T11:15:50.619');
+INSERT INTO `notifications` (`Notification No`, `Notification Subject`, `Notification Content`, `Admin No`, `Notification Type No`, `Date created`, `Image dir`) VALUES
+(598, 'Hello there', 'Hello there, it\'s Mathenge with an announcement to make.', 1, 1, '2018-10-25T12:46:10.809', 'C:\\Users\\Mathenge\\Documents\\Projects\\WebAdminModule\\target\\WebAdminModule-1.0-SNAPSHOT\\notimages\\Black-Roses_2048x.jpg'),
+(599, 'Notice', 'According to ...', 1, 1, '2018-10-25T13:06:15.023', 'C:\\Users\\Mathenge\\Documents\\Projects\\WebAdminModule\\target\\WebAdminModule-1.0-SNAPSHOT\\notimages\\Black-Roses_2048x.jpg'),
+(600, 'Notice', 'According to ...', 1, 1, '2018-10-25T13:12:25.333', 'C:\\Users\\Mathenge\\Documents\\Projects\\WebAdminModule\\target\\WebAdminModule-1.0-SNAPSHOT\\notimages\\Black-Roses_2048x.jpg'),
+(601, 'Notice', 'According to ...', 1, 1, '2018-10-25T13:14:21.644', 'C:\\Users\\Mathenge\\Documents\\Projects\\WebAdminModule\\target\\WebAdminModule-1.0-SNAPSHOT\\notimages\\Black-Roses_2048x.jpg'),
+(602, 'Notice', 'According to ...', 1, 1, '2018-10-25T13:15:18.126', 'C:\\Users\\Mathenge\\Documents\\Projects\\WebAdminModule\\target\\WebAdminModule-1.0-SNAPSHOT\\notimages\\Black-Roses_2048x.jpg'),
+(603, 'dsd', 'asdasd', 1, 1, '2018-10-25T14:12:07.107', 'C:\\Users\\Mathenge\\Documents\\Projects\\WebAdminModule\\target\\WebAdminModule-1.0-SNAPSHOT\\notimages\\IMG_1619.jpg'),
+(604, 'dsd', 'asdasd', 1, 1, '2018-10-25T14:13:01.147', 'C:\\Users\\Mathenge\\Documents\\Projects\\WebAdminModule\\target\\WebAdminModule-1.0-SNAPSHOT\\notimages\\IMG_1619.jpg'),
+(605, 'dsd', 'asdasd', 1, 1, '2018-10-25T14:13:42.220', 'C:\\Users\\Mathenge\\Documents\\Projects\\WebAdminModule\\target\\WebAdminModule-1.0-SNAPSHOT\\notimages\\IMG_1619.jpg');
 
 -- --------------------------------------------------------
 
@@ -92,9 +101,19 @@ INSERT INTO `notification_type` (`Type No`, `Type Name`, `Description`) VALUES
 CREATE TABLE `schedule` (
   `Schedule No` int(50) NOT NULL,
   `Notification No` int(50) NOT NULL,
-  `Time` time NOT NULL,
-  `Date` date NOT NULL
+  `Time` varchar(40) DEFAULT NULL,
+  `Date` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `schedule`
+--
+
+INSERT INTO `schedule` (`Schedule No`, `Notification No`, `Time`, `Date`) VALUES
+(1, 602, NULL, 'Oct 26, 2018'),
+(2, 603, NULL, 'Oct 29, 2018'),
+(3, 604, NULL, 'Oct 29, 2018'),
+(4, 605, NULL, 'Oct 29, 2018');
 
 --
 -- Indexes for dumped tables
@@ -141,7 +160,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `Notification No` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=598;
+  MODIFY `Notification No` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=606;
 
 --
 -- AUTO_INCREMENT for table `notification_type`
@@ -153,7 +172,7 @@ ALTER TABLE `notification_type`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `Schedule No` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `Schedule No` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
