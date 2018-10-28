@@ -1,6 +1,8 @@
+/dist/
 src/main/resources/dbconfig.properties
 src/main/resources/filepath.properties
 src/main/resources/xmppserver.properties
 .idea/
 target/
 *.class
+build/
