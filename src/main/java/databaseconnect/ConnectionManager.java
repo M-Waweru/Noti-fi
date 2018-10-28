@@ -5,7 +5,6 @@
  */
 package databaseconnect;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -45,24 +44,14 @@ public class ConnectionManager {
     }
 
     private void getPropValues() throws IOException {
-        InputStream inputStream = null;
+        Properties prop = new Properties();
+        String propFileName = "dbconfig.properties";
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
-        try {
-            Properties prop = new Properties();
-            String propFileName = "config.properties";
-
-            inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-
-            if (inputStream != null) {
-                prop.load(inputStream);
-            } else {
-                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
-            }
-
+        try (InputStream resourceStream = loader.getResourceAsStream(propFileName)) {
+            prop.load(resourceStream);
             username = prop.getProperty("username");
             password = prop.getProperty("password");
-        } finally {
-            inputStream.close();
         }
     }
 

@@ -29,8 +29,7 @@ public class Notification implements Serializable {
 
     public int saveNotification() {
         NotificationCreation createnote = new NotificationCreation(subject, content, adminno, type, datecreated, imagedir);
-        int notificationno = createnote.getNotificationNo();
-        return notificationno;
+        return createnote.getNotificationNo();
     }
 
     public int getNotificationno() {

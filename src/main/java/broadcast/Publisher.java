@@ -1,6 +1,5 @@
 package broadcast;
 
-import broadcast.Util;
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
@@ -13,17 +12,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.concurrent.TimeUnit;
 
 public class Publisher {
 
     private AbstractXMPPConnection conn;
 
     private int sizeOfImageInBytes = 0;
+    private LeafNode leafNode;
+    private PubSubManager pubSubManager;
 
     public Publisher(String username, String password)
             throws InterruptedException, IOException, SmackException, XMPPException {
         conn = Util.connect(username, password);
+        // Create a pubsub manager using an existing XMPPConnection
+        pubSubManager = PubSubManager.getInstance(conn);
     }
 
     private String encodeFileToBase64Binary(File file) {
@@ -40,24 +42,54 @@ public class Publisher {
         return encodedFile;
     }
 
-    public void publish(String subject, String content, String imagedir) throws XMPPException.XMPPErrorException, SmackException.NotConnectedException,
+    public void publish(String subject, String content, String imagedir)
+            throws XMPPException.XMPPErrorException, SmackException.NotConnectedException,
             InterruptedException, SmackException.NoResponseException {
-        // Create a pubsub manager using an existing XMPPConnection
-        PubSubManager pubSubManager = PubSubManager.getInstance(conn);
 
+        final PayloadItem<SimplePayload> item = getPublishPayload(subject, content, imagedir);
+        try {
+            leafNode = pubSubManager.getNode("testNode");
+        } catch (XMPPException.XMPPErrorException | PubSubException.NotAPubSubNodeException e) {
+            ConfigureForm form = getConfigureForm();
+            leafNode = (LeafNode) pubSubManager.createNode("testNode", form);
+        }
+        leafNode.publish(item);
+    }
+
+    public void schedulePublish(String subject, String content, String imagedir, long delayInMilliseconds)
+            throws SmackException.NotConnectedException, InterruptedException, SmackException.NoResponseException,
+            XMPPException.XMPPErrorException {
+        try {
+            leafNode = pubSubManager.getNode("testNode");
+        } catch (XMPPException.XMPPErrorException | PubSubException.NotAPubSubNodeException e) {
+            ConfigureForm form = getConfigureForm();
+            leafNode = (LeafNode) pubSubManager.createNode("testNode", form);
+        }
+        final PayloadItem<SimplePayload> item = getPublishPayload(subject, content, imagedir);
+
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                Scheduler scheduler = new Scheduler();
+                scheduler.schedulePublish(leafNode, delayInMilliseconds, item);
+            }
+        });
+    }
+
+    private ConfigureForm getConfigureForm() {
         ConfigureForm form = new ConfigureForm(DataForm.Type.submit);
         form.setAccessModel(AccessModel.open);          //anyone can access
         form.setDeliverPayloads(true);                 //allow payloads with notifications
         form.setPersistentItems(true);                  //save published items in storage @ server
         form.setPresenceBasedDelivery(false);          //notify subscribers even when they are offline
         form.setPublishModel(PublishModel.publishers);       //only publishers (owner) can post items to this node
+        return form;
+    }
 
-        String filepath = imagedir;
-        File file = new File(filepath);
+    private PayloadItem<SimplePayload> getPublishPayload(String subject, String content, String imagedir) {
+        File file = new File(imagedir);
         String imageBase64 = encodeFileToBase64Binary(file);
 
-        LeafNode leafNode;
-        String msg = content;
         StandardExtensionElement extFileNameBuilder = StandardExtensionElement.builder(
                 "file", "jabber:client")
                 .addElement("base64Bin", imageBase64)
@@ -68,38 +100,15 @@ public class Publisher {
         Message message = new Message();
         message.setStanzaId();
         message.setSubject(subject);
-        message.setBody(msg);
+        message.setBody(content);
         message.addExtension(extFileNameBuilder);
 
         SimplePayload payload = new SimplePayload(message.toXML("").toString());
-        final PayloadItem<SimplePayload> item = new PayloadItem<>("5", payload);
-        try {
-            leafNode = pubSubManager.getNode("testNode");
-            final LeafNode finalLeafNode = leafNode;
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Scheduler scheduler = new Scheduler();
-                    scheduler.scheduleTask(finalLeafNode, TimeUnit.MINUTES, 1, item);
-                }
-            });
-            thread.start();
-        } catch (XMPPException.XMPPErrorException | PubSubException.NotAPubSubNodeException e) {
-            leafNode = (LeafNode) pubSubManager.createNode("testNode", form);
-        }
+        return new PayloadItem<>("5", payload);
     }
 
     public AbstractXMPPConnection getConn() {
         return conn;
     }
 
-    public static void main(String[] args) {
-        Publisher publisher;
-        try {
-            publisher = new Publisher("admin", "admin");
-//            publisher.publish("Hello", "there");
-        } catch (InterruptedException | XMPPException | SmackException | IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

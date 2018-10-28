@@ -5,24 +5,22 @@
  */
 package admin;
 
-import secure.*;
-import databaseconnect.*;
-import java.sql.*;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.*;
+import databaseconnect.ConnectionManager;
+import secure.Hashing;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
- *
  * @author Mathenge
  */
 public class AdminLogin extends HttpServlet {
@@ -35,10 +33,10 @@ public class AdminLogin extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,10 +45,9 @@ public class AdminLogin extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String username = request.getParameter("name");
             String password = request.getParameter("pwd");
-            System.out.println("" + password);
 
-            ConnectionManager conman = new ConnectionManager();
-            conn = conman.getConnection();
+            ConnectionManager connectionManager = new ConnectionManager();
+            conn = connectionManager.getConnection();
             Hashing checkpwd = new Hashing();
 
             try {
@@ -65,14 +62,15 @@ public class AdminLogin extends HttpServlet {
                     System.out.println("" + dbsalt);
 
 //                    if (checkpwd.authenticate(password, dbpassword.getBytes(), dbsalt.getBytes()) == true) {
-                        int userno = rs.getInt(1);
-                        HttpSession session = request.getSession();
+                    int userno = rs.getInt(1);
+                    System.out.println(userno);
+                    HttpSession session = request.getSession();
 
-                        synchronized (session) {
-                            session.setAttribute("adminname", username);
-                            session.setAttribute("adminno", userno);
-                        }
-                        response.sendRedirect("startpage.jsp");
+                    synchronized (session) {
+                        session.setAttribute("adminname", username);
+                        session.setAttribute("adminno", userno);
+                    }
+                    response.sendRedirect("startpage.jsp");
 //                    } else {
 //                        out.println("<p style='color: red;'>Incorrect password, try again</p>");
 ////                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
@@ -97,13 +95,14 @@ public class AdminLogin extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -114,10 +113,10 @@ public class AdminLogin extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
