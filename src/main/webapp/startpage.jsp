@@ -20,25 +20,9 @@
         <script type = "text/javascript"
         src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-        <%
-            String adminname = (String) session.getAttribute("adminname");
-        %>
     </head>
     <body>
-        <nav class="blue-grey">
-            <div class="nav-wrapper">
-                <a href="startpage.jsp" class="brand-logo">Admin Module</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="badges.html">About</a></li>
-                        <%
-                            if (adminname != null) {
-                                out.println("<li><a href=''>" + adminname + "</a></li>");
-                                out.println("<li><a href='LogoutServ'>Logout</a></li>");
-                            }
-                        %>
-                </ul>
-            </div>
-        </nav>
+        <%@ include file="navbar.jsp" %>
         <div class="container">
             <div class="row">
                 <div>
@@ -74,7 +58,7 @@
                         </div>
                         <div class="card-action">
                             <span class="card-title activator grey-text text-darken-4">Account Settings<i class="material-icons right">more_vert</i></span>
-                            <p><a href="addadmin.jsp">Click here</a></p>
+                            <p><a href="account.jsp">Click here</a></p>
                         </div>
                     </div>
                 </div>

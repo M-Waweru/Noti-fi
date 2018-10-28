@@ -19,14 +19,7 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
     </head>
     <body>
-        <nav class="blue-grey">
-            <div class="nav-wrapper">
-                <a href="startpage.jsp" class="brand-logo">Admin Module</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="badges.html">About</a></li>
-                </ul>
-            </div>
-        </nav>
+        <%@ include file="navbar.jsp" %>
         <div class="container">
             <%!
                 private Connection conn = null;
@@ -62,23 +55,23 @@
                         String adminsql = "select * from `admins` where `Admin No` = " + String.valueOf(adminno);
                         nstmt = conn.createStatement();
                         nextrs = nstmt.executeQuery(adminsql);
-                        String adminname = "";
+                        String dbadminname = "";
                         while (nextrs.next()) {
-                            adminname = nextrs.getString(2);
+                            dbadminname = nextrs.getString(2);
                         }
                         out.println("	<tr>\n"
                                 + "						<td>" + notno + "</td>\n"
                                 + "						<td>" + subject + "</td>\n"
                                 + "                                               <td>" + content + "</td>\n"
-                                + "                                               <td>" + adminname + "</td>\n"
+                                + "                                               <td>" + dbadminname + "</td>\n"
                                 + "                                               <td>  <a class=\"waves-effect waves-light btn modal-trigger\" href=\"#" + notno + "\">Modal</a></td>\n"
                                 + "					</tr>\n");
                         out.println("  <div id=\"" + notno + "\" class=\"modal modal-fixed-footer\">"
                                 + "<div class=\"modal-content\">"
                                 + "<h4>Subject: " + subject + "</h4>"
                                 + "<hr>"
-                                + "<h5>Written by: " + adminname + "</h5>"
-                                + "<img class=\"responsive-img\" src=\""+imagedir+"\">"
+                                + "<h5>Written by: " + dbadminname + "</h5>"
+                                + "<img class=\"responsive-img\" src=\"" + imagedir + "\">"
                                 + "<p>" + content + "</p>"
                                 + "</div>"
                                 + "<div class=\"modal-footer\">"

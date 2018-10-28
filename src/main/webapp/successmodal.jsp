@@ -18,6 +18,7 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
     </head>
     <body>
+        <%@ include file="navbar.jsp" %>
         <div id="successmodal" class="modal">
             <div class="modal-content">
                 <h4>Successful</h4>

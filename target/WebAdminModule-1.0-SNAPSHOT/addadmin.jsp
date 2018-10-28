@@ -16,14 +16,7 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
     </head>
     <body>
-        <nav class="blue-grey">
-            <div class="nav-wrapper">
-                <a href="startpage.jsp" class="brand-logo">Admin Module</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="badges.html">About</a></li>
-                </ul>
-            </div>
-        </nav>
+        <%@ include file="navbar.jsp" %>
         <div class="container">
             <%!
                 private Connection conn = null;
@@ -50,12 +43,12 @@
                             + "				<tbody>\n");
                     while (rs.next()) {
                         int adminno = rs.getInt(1);
-                        String adminname = rs.getString(2);
+                        String dbadminname = rs.getString(2);
                         String description = rs.getString(3);
 
                         out.println("	<tr>\n"
                                 + "						<td>" + adminno + "</td>\n"
-                                + "						<td>" + adminname + "</td>\n"
+                                + "						<td>" + dbadminname + "</td>\n"
                                 + "                                               <td>" + description + "</td>\n"
                                 + "					</tr>\n");
                     }

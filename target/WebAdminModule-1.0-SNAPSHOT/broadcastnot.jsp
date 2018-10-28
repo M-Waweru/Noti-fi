@@ -24,6 +24,7 @@ and open the template in the editor.
         %>
     </head>
     <body>
+        <%@ include file="navbar.jsp" %>
         <div class="container">
             <form method="POST" action="UploadServlet" class="col s12" enctype = "multipart/form-data">
                 <div class="row">
@@ -42,8 +43,7 @@ and open the template in the editor.
                         <i class="material-icons prefix">class</i>
                         <select name="nottype" required>
                             <option value="" disabled selected>Choose your option</option>
-                            <%
-                                conn = conman.getConnection();
+                            <%                                conn = conman.getConnection();
                                 try {
                                     String adminsql = "select * from notification_type";
                                     stmt = conn.createStatement();
@@ -99,15 +99,9 @@ and open the template in the editor.
                 </div>  
             </form>
         </div>
-        <div id="schedulemodal" class="modal" height="500px">
-            <div class="modal-content">
-                <h4>Schedule Notification</h4>
-
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-            </div>
-        </div>
+        <br>
+        <br>
+        <br>
     </body>
     <script type="text/javascript">
         $(document).ready(function () {
