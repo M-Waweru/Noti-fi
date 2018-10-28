@@ -5,16 +5,8 @@
  */
 package admin;
 
-import secure.*;
-import databaseconnect.*;
-import java.sql.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Mathenge
  */
-public class AdminLogin extends HttpServlet {
-
-    private Connection conn = null;
-    private PreparedStatement stmt = null;
-    private ResultSet rs = null;
+public class LogoutServ extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,50 +33,10 @@ public class AdminLogin extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String username = request.getParameter("name");
-            String password = request.getParameter("pwd");
-            System.out.println("" + password);
-
-            ConnectionManager conman = new ConnectionManager();
-            conn = conman.getConnection();
-            Bcrypting checkpwd = new Bcrypting();
-
-            try {
-                String sql = "SELECT * FROM `admins` WHERE `Admin Name`=?";
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, username);
-                rs = stmt.executeQuery();
-                if (rs.next()) {
-                    String dbpassword = rs.getString(4);
-                    System.out.println("" + dbpassword);
-                    String dbsalt = rs.getString(5);
-                    System.out.println("" + dbsalt);
-
-                    if (checkpwd.checkPassword(password, dbpassword) == true) {
-                        int userno = rs.getInt(1);
-                        HttpSession session = request.getSession();
-
-                        synchronized (session) {
-                            session.setAttribute("adminname", username);
-                            session.setAttribute("adminno", userno);
-                        }
-                        response.sendRedirect("startpage.jsp");
-                    } else {
-                        request.setAttribute("warning2", "Incorrect password, try again");
-                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.jsp");
-                        rs.forward(request, response);
-                    }
-                } else {
-                        request.setAttribute("warning1", "Username not found, try again");
-                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.jsp");
-                        rs.forward(request, response);
-                }
-            } catch (SQLException ex) {
-                out.println(ex);
-            } finally {
-                out.close();
-            }
-
+            HttpSession session = request.getSession();
+            session.invalidate();
+            
+            response.sendRedirect("index.html");
         }
     }
 

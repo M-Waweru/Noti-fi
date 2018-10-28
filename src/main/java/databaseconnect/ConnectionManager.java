@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author mathe
@@ -33,8 +35,8 @@ public class ConnectionManager {
             } catch (SQLException ex) {
                 // log an exception. fro example:
                 System.out.println("Failed to create the database connection.");
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (ClassNotFoundException ex) {
             // log an exception. for example:
@@ -49,7 +51,7 @@ public class ConnectionManager {
 
         try {
             Properties prop = new Properties();
-            String propFileName = "config.properties";
+            String propFileName = "config/dbconfig.properties";
 
             inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
@@ -61,6 +63,8 @@ public class ConnectionManager {
 
             username = prop.getProperty("username");
             password = prop.getProperty("password");
+            System.out.println(""+username);
+            System.out.println(""+password);
         } finally {
             inputStream.close();
         }

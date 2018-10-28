@@ -39,10 +39,8 @@
             <%
                 conn = conman.getConnection();
                 try {
-
                     String notifisql = "select * from notifications order by `Notification No` desc";
                     stmt = conn.createStatement();
-
                     rs = stmt.executeQuery(notifisql);
                     out.println("<div class=\"container\">\n"
                             + "			<table>\n"
@@ -61,16 +59,13 @@
                         String content = rs.getString(3);
                         int adminno = rs.getInt(4);
                         String imagedir = rs.getString("Image dir");
-
                         String adminsql = "select * from `admins` where `Admin No` = " + String.valueOf(adminno);
                         nstmt = conn.createStatement();
                         nextrs = nstmt.executeQuery(adminsql);
                         String adminname = "";
-
                         while (nextrs.next()) {
                             adminname = nextrs.getString(2);
                         }
-
                         out.println("	<tr>\n"
                                 + "						<td>" + notno + "</td>\n"
                                 + "						<td>" + subject + "</td>\n"
@@ -105,4 +100,3 @@
         });
     </script>
 </html>
-

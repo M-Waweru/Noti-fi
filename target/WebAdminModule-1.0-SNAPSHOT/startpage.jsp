@@ -33,7 +33,7 @@
                         <%
                             if (adminname != null) {
                                 out.println("<li><a href=''>" + adminname + "</a></li>");
-                                out.println("<li><a href=''>Logout</a></li>");
+                                out.println("<li><a href='LogoutServ'>Logout</a></li>");
                             }
                         %>
                 </ul>

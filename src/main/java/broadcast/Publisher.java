@@ -57,7 +57,9 @@ public class Publisher {
         String imageBase64 = encodeFileToBase64Binary(file);
 
         LeafNode leafNode;
-        String msg = content;
+        String msg = "" + subject + "\n"
+                + "\t\n"
+                + "\t\n" + content;
         StandardExtensionElement extFileNameBuilder = StandardExtensionElement.builder(
                 "file", "jabber:client")
                 .addElement("base64Bin", imageBase64)
@@ -71,6 +73,7 @@ public class Publisher {
         message.setBody(msg);
         message.addExtension(extFileNameBuilder);
 
+//        String xmlMsg = "<message xmlns='pubsub:test:test'>" + msg + "</message>";
         SimplePayload payload = new SimplePayload(message.toXML("").toString());
         final PayloadItem<SimplePayload> item = new PayloadItem<>("5", payload);
         try {
@@ -97,7 +100,7 @@ public class Publisher {
         Publisher publisher;
         try {
             publisher = new Publisher("admin", "admin");
-//            publisher.publish("Hello", "there");
+            publisher.publish("Hello", "there", "");
         } catch (InterruptedException | XMPPException | SmackException | IOException e) {
             e.printStackTrace();
         }

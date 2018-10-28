@@ -47,6 +47,11 @@
             <artifactId>smack-extensions</artifactId>
             <version>4.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,10 +1,15 @@
+broadcast\Scheduler.class
 admin\Settings.class
 admin\UploadServlet.class
 broadcast\Util.class
 broadcast\BroadcastServer.class
 admin\BroadcastNot.class
+admin\LogoutServ.class
+broadcast\Scheduler$1.class
 notifications\NotificationCreation.class
+schedule\ScheduleCreation.class
 admin\AdminLogin.class
+broadcast\Publisher$1.class
 databaseconnect\ConnectionManager.class
 notifications\Notification.class
 broadcast\Publisher.class

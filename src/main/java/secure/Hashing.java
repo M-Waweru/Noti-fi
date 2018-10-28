@@ -5,6 +5,7 @@ package secure;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 /**
  *
  * @author Mathenge
@@ -27,9 +28,9 @@ public class Hashing {
         // Encrypt the clear-text password using the same salt that was used to
         // encrypt the original password
         byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
-        System.out.println("Hasheduserpwd" + encryptedAttemptedPassword);
-        System.out.println("hasheddbpwd" + encryptedPassword);
-        System.out.println("salt" + salt);
+        System.out.println("Hasheduserpwd"+encryptedAttemptedPassword);
+        System.out.println("hasheddbpwd"+encryptedPassword);
+        System.out.println("salt"+salt);
 
         // Authentication succeeds if encrypted password that the user entered
         // is equal to the stored hash
@@ -73,13 +74,15 @@ public class Hashing {
         try {
             byte[] salt = pwd.generateSalt();
             byte[] hashedpwd = pwd.getEncryptedPassword("1234", salt);
-
-            if (pwd.authenticate("1234", hashedpwd, salt) == true) {
+            
+            if (pwd.authenticate("1234", hashedpwd, salt)==true){
                 System.out.println("Success");
+                System.out.println("Hashed"+hashedpwd);
+                System.out.println("salt"+salt);
             } else {
                 System.out.println("Fail");
             }
-
+            
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Hashing.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeySpecException ex) {
