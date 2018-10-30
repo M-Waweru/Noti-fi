@@ -95,6 +95,7 @@ public class Publisher {
                 + "\t\n"
                 + "\t\n" + content;
 
+
         StandardExtensionElement extFileNameBuilder = StandardExtensionElement.builder(
                 "file", "jabber:client")
                 .addElement("base64Bin", imageBase64)
@@ -115,15 +116,5 @@ public class Publisher {
 
     public AbstractXMPPConnection getConn() {
         return conn;
-    }
-
-    public static void main(String[] args) {
-        Publisher publisher;
-        try {
-            publisher = new Publisher("admin", "admin");
-            publisher.publish("Hello", "there", "");
-        } catch (InterruptedException | XMPPException | SmackException | IOException e) {
-            e.printStackTrace();
-        }
     }
 }

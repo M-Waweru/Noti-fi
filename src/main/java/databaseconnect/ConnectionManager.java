@@ -5,6 +5,7 @@
  */
 package databaseconnect;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -45,7 +46,8 @@ public class ConnectionManager {
 
     private void getPropValues() throws IOException {
         Properties prop = new Properties();
-        String propFileName = "config/dbconfig.properties";
+        String propFileName = "config" + File.separator + "dbconfig.properties";
+
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
         try (InputStream resourceStream = loader.getResourceAsStream(propFileName)) {

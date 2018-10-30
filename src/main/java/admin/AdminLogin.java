@@ -50,7 +50,6 @@ public class AdminLogin extends HttpServlet {
             ConnectionManager conman = new ConnectionManager();
             conn = conman.getConnection();
             Bcrypting checkpwd = new Bcrypting();
-
             try {
                 String sql = "SELECT * FROM `admins` WHERE `Admin Name`=?";
                 stmt = conn.prepareStatement(sql);

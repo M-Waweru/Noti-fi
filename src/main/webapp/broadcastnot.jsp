@@ -57,7 +57,7 @@ and open the template in the editor.
                                         int typeno = rs.getInt(1);
                                         String typename = rs.getString(2);
                                         String description = rs.getString(3);
-
+                                        
                                         out.println("<option value='" + typeno + "'>" + typename + "</option>");
                                     }
                                 } catch (Exception ex) {
@@ -96,16 +96,9 @@ and open the template in the editor.
                         <input name="schnottime" type="text" class="timepicker">
                         <label for="schnottime">At what time?</label>
                     </div>
+
                 </div>
-                <div class="row">
-                    <button class="btn waves-effect waves-light" type="submit" name="now" value="Broadcast Now">Broadcast Now
-                        <i class="material-icons right">send</i>
-                    </button>
-                    <button class="btn waves-effect waves-light" type="submit" name="later" value="Schedule">Schedule Notification
-                        <i class="material-icons right">alarm</i>
-                    </button>
-                </div>  
-            </form>
         </div>
-    </body>
+    </div>
+</body>
 </html>
