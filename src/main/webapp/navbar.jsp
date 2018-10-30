@@ -21,12 +21,9 @@
         src = "js/jquery-3.1.1.min.js"></script>           
         <script src = "js/materialize.min.js"></script> 
         <%
-            String adminname = "";
-            if (session.getAttribute("adminname") != null && session.getAttribute("adminno") != null) {
+            String adminname = null;
+            if (session.getAttribute("adminname") != null) {
                 adminname = (String) session.getAttribute("adminname");
-            } else {
-//                request.setAttribute("warning", "Session timed out, please login again");
-//                request.getRequestDispatcher("adminlogin.jsp").forward(request, response);
             }
         %>
     </head>
