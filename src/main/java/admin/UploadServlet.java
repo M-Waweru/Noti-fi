@@ -176,7 +176,7 @@ public class UploadServlet extends HttpServlet {
 
     private String getImagesFolderPath() throws IOException {
         Properties prop = new Properties();
-        String propFileName = "filepath.properties";
+        String propFileName = "config"+File.separator+"filepath.properties";
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
         try (InputStream resourceStream = loader.getResourceAsStream(propFileName)) {
@@ -187,7 +187,7 @@ public class UploadServlet extends HttpServlet {
 
     private void setXmppServerCredentials() {
         Properties prop = new Properties();
-        String propFileName = "xmppserver.properties";
+        String propFileName = "config"+File.separator+"xmppserver.properties";
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
         try (InputStream resourceStream = loader.getResourceAsStream(propFileName)) {
