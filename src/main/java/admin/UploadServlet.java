@@ -70,7 +70,7 @@ public class UploadServlet extends HttpServlet {
         String scheduletime = request.getParameter("schnottime");
 
         HttpSession session = request.getSession();
-        
+
         int adminno = (int) session.getAttribute("adminno");
 
         OutputStream out = null;
@@ -118,7 +118,7 @@ public class UploadServlet extends HttpServlet {
 
             } else {
                 try {
-                    publisher = new Publisher("admin", "admin");
+                    publisher = new Publisher(xmppServerUsername, xmppServerPassword);
                     publisher.publish(subject, content, imagedir);
                     Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
                     notifi.saveNotification();
@@ -176,7 +176,7 @@ public class UploadServlet extends HttpServlet {
 
     private String getImagesFolderPath() throws IOException {
         Properties prop = new Properties();
-        String propFileName = "config"+File.separator+"filepath.properties";
+        String propFileName = "config" + File.separator + "filepath.properties";
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
         try (InputStream resourceStream = loader.getResourceAsStream(propFileName)) {
@@ -187,7 +187,7 @@ public class UploadServlet extends HttpServlet {
 
     private void setXmppServerCredentials() {
         Properties prop = new Properties();
-        String propFileName = "config"+File.separator+"xmppserver.properties";
+        String propFileName = "config" + File.separator + "xmppserver.properties";
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
         try (InputStream resourceStream = loader.getResourceAsStream(propFileName)) {
