@@ -1,3 +1,9 @@
+/dist/
 src/main/resources/dbconfig.properties
-.idea
-target
+src/main/resources/filepath.properties
+src/main/resources/xmppserver.properties
+.idea/
+target/
+*.class
+build/
+/nbproject/

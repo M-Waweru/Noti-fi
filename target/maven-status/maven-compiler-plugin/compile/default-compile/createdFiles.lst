@@ -2,6 +2,7 @@ broadcast\Scheduler.class
 admin\Settings.class
 admin\UploadServlet.class
 broadcast\Util.class
+secure\Bcrypting.class
 broadcast\BroadcastServer.class
 admin\BroadcastNot.class
 admin\LogoutServ.class
@@ -11,6 +12,7 @@ schedule\ScheduleCreation.class
 admin\AdminLogin.class
 broadcast\Publisher$1.class
 databaseconnect\ConnectionManager.class
+broadcast\AppExecutors.class
 notifications\Notification.class
 broadcast\Publisher.class
 admin\AdminOperations.class

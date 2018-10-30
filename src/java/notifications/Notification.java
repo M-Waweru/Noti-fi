@@ -13,32 +13,30 @@ import java.io.*;
  *
  * @author mathe
  */
-public class Notification implements Serializable {
+public class Notification implements Serializable{
 
-    private String subject, content, datecreated, imagedir;
-    private int adminno, type, notificationno;
+    private String notificationNo;
+    private String subject;
+    private String content;
+    private int adminno;
+    private int notification_type;
+    private String datecreated;
 
-    public Notification(String subject, String content, int adminno, int type, String imagedir) {
+    public Notification(String subject, String content, int adminno, int type) {
+        this.notificationNo = generateNotificationNo();
         this.subject = subject;
         this.content = content;
         this.adminno = adminno;
-        this.type = type;
+        this.notification_type = type;
         this.datecreated = generateDateCreated();
-        this.imagedir = imagedir;
+        
+        NotificationCreation createnote = new NotificationCreation(notificationNo, subject, content, adminno, type, datecreated);
     }
 
-    public int saveNotification() {
-        NotificationCreation createnote = new NotificationCreation(subject, content, adminno, type, datecreated, imagedir);
-        return createnote.getNotificationNo();
+    public String getNotificationNo() {
+        return notificationNo;
     }
 
-    public int getNotificationno() {
-        return notificationno;
-    }
-
-//    public static void main(String[] args) {
-//        new Notification("Hello", "Hello", 1, 1);
-//    }
     public String getSubject() {
         return subject;
     }
@@ -52,7 +50,7 @@ public class Notification implements Serializable {
     }
 
     public int getNotification_type() {
-        return type;
+        return notification_type;
     }
 
     public String getDatecreated() {
@@ -62,5 +60,10 @@ public class Notification implements Serializable {
     public String generateDateCreated() {
         LocalDateTime ldt = LocalDateTime.now();
         return ldt.toString();
+    }
+
+    public String generateNotificationNo() {
+        UUID notifno = UUID.randomUUID();
+        return notifno.toString();
     }
 }

@@ -4,24 +4,19 @@
  * and open the template in the editor.
  */
 package admin;
-
-import databaseconnect.ConnectionManager;
-import secure.*;
-
+import databaseconnect.*;
+import java.sql.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
 
 /**
+ *
  * @author Mathenge
  */
 public class AdminLogin extends HttpServlet {
@@ -34,10 +29,10 @@ public class AdminLogin extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -49,42 +44,29 @@ public class AdminLogin extends HttpServlet {
 
             ConnectionManager conman = new ConnectionManager();
             conn = conman.getConnection();
-            Bcrypting checkpwd = new Bcrypting();
-
             try {
-                String sql = "SELECT * FROM `admins` WHERE `Admin Name`=?";
+                String sql = "SELECT * FROM `admins` WHERE `Admin Name`=? and `Admin Password` = ?;";
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, username);
+                stmt.setString(2, password);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
-                    String dbpassword = rs.getString(4);
-                    System.out.println("" + dbpassword);
-                    String dbsalt = rs.getString(5);
-                    System.out.println("" + dbsalt);
-
-                    if (checkpwd.checkPassword(password, dbpassword) == true) {
-                        int userno = rs.getInt(1);
-                        HttpSession session = request.getSession();
-
-                        synchronized (session) {
-                            session.setAttribute("adminname", username);
-                            session.setAttribute("adminno", userno);
-                        }
-                        response.sendRedirect("startpage.jsp");
-                    } else {
-                        request.setAttribute("warning2", "Incorrect password, try again");
-                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.jsp");
-                        rs.forward(request, response);
+                    out.println("<p>Username and password found</p>");
+                    int userno = rs.getInt(1);
+                    HttpSession session = request.getSession();
+                    
+                    synchronized (session) {
+                        session.setAttribute("adminname", username);
+                        session.setAttribute("adminno", userno);
                     }
+                    response.sendRedirect("mainpage.html");
                 } else {
-                        request.setAttribute("warning1", "Username not found, try again");
-                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.jsp");
-                        rs.forward(request, response);
+                    out.println("<p style='color: red;'>Username and password not found</p>");
+                    RequestDispatcher rs = request.getRequestDispatcher("adminlogin.html");
+                    rs.include(request, response);
                 }
             } catch (SQLException ex) {
                 out.println(ex);
-            } catch (NullPointerException ex) {
-                System.out.println("Database is offline");
             } finally {
                 out.close();
             }
@@ -93,14 +75,13 @@ public class AdminLogin extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -111,10 +92,10 @@ public class AdminLogin extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

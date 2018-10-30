@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.isproj</groupId>
-    <artifactId>WebAdminModule</artifactId>
+    <artifactId>AdminModule</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>WebAdminModule</name>
+    <name>AdminModule</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -15,11 +15,11 @@
     </properties>
     
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -27,30 +27,61 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+
+
+
         <dependency>
+
+            <groupId>mysql</groupId>
+
+            <artifactId>mysql-connector-java</artifactId>
+
+            <version>5.1.6</version>
+
+        </dependency>
+
+        <dependency>
+
             <groupId>org.igniterealtime.smack</groupId>
+
             <artifactId>smack-java7</artifactId>
+
             <version>4.3.0</version>
+
         </dependency>
+
+
         <dependency>
+
             <groupId>org.igniterealtime.smack</groupId>
+
             <artifactId>smack-tcp</artifactId>
+
             <version>4.3.0</version>
+
         </dependency>
+
+
         <dependency>
+
             <groupId>org.igniterealtime.smack</groupId>
+
             <artifactId>smack-im</artifactId>
+
             <version>4.3.0</version>
+
         </dependency>
+
+
         <dependency>
+
             <groupId>org.igniterealtime.smack</groupId>
+
             <artifactId>smack-extensions</artifactId>
+
             <version>4.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-            <version>0.3m</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 

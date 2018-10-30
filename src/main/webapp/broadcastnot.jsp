@@ -4,9 +4,11 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<%@page import="java.sql.*"%>
-<%@page import="databaseconnect.ConnectionManager"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="databaseconnect.ConnectionManager" %>
+<%@page import="java.sql.Connection" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Statement" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <html>
     <head>
         <title>Create Notification</title>
@@ -16,6 +18,8 @@ and open the template in the editor.
         <link rel = "stylesheet" href = "css/materialize.min.css">
         <script type = "text/javascript" src = "js/jquery-3.1.1.min.js"></script>           
         <script type = "text/javascript" src = "js/materialize.min.js"></script> 
+        <script type="text/javascript" src="js/datepicker.js"></script>
+
         <%!
             private Connection conn = null;
             private Statement stmt = null;
@@ -75,7 +79,7 @@ and open the template in the editor.
                     <div class="file-field input-field col s8">
                         <div class="btn">
                             <span>Image</span>
-                            <input name="notimage" type="file" required>
+                            <input name="notimage" type="file" accept="image/*" required>
                         </div>
                         <div class="file-path-wrapper col s8">
                             <input class="file-path validate" type="text" required>
@@ -83,10 +87,14 @@ and open the template in the editor.
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s8">
-                        <i class="material-icons prefix">mode_edit</i>
-                        <input name="schnotdate" type="text" class="datepicker">                        
+                    <i class="material-icons prefix">mode_edit</i>
+                    <div class="input-field col s4">
+                        <input name="schnotdate" type="text" class="datepicker">
                         <label for="schnotdate">When do you want to send this?</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input name="schnottime" type="text" class="timepicker">
+                        <label for="schnottime">At what time?</label>
                     </div>
                 </div>
                 <div class="row">
@@ -99,15 +107,5 @@ and open the template in the editor.
                 </div>  
             </form>
         </div>
-        <br>
-        <br>
-        <br>
     </body>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('select').formSelect();
-            $('.modal').modal();
-            $('.datepicker').datepicker();
-        });
-    </script>
 </html>

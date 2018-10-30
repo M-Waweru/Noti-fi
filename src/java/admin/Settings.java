@@ -5,19 +5,25 @@
  */
 package admin;
 
+import com.sun.xml.ws.transport.tcp.util.ConnectionManagementSettings;
+import databaseconnect.ConnectionManager;
+import java.sql.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Mathenge
  */
-public class LogoutServ extends HttpServlet {
+public class Settings extends HttpServlet {
+
+    private Connection conn = null;
+    private Statement stmt = null;
+    private ResultSet rs = null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,10 +39,57 @@ public class LogoutServ extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            session.invalidate();
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Add administrators</title>");
+            out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/materialize.min.css\">");
+            out.println("<script type=\"text/javascript\" src=\"js/jquery-3.1.1.min.js\"></script>");
+            out.println("<script type=\"text/javascript\" src=\"js/materialize.min.js\"></script>");
+            out.println("</head>");
+            out.println("<body>");
+            ConnectionManager conman = new ConnectionManager();
+            conn = conman.getConnection();
+
+            try {
+                String adminsql = "select * from admins";
+                stmt = conn.createStatement();
+
+                rs = stmt.executeQuery(adminsql);
+                out.println("<div class=\"container\">\n" +
+"			<table>\n" +
+"				<thead>\n" +
+"					<tr>\n" +
+"						<td>No</td>\n" +
+"						<td>Name</td>\n" +
+"                                               <td>Description</td>\n" +
+"					</tr>\n" +
+"				</thead>\n" +
+"				<tbody>\n");
+                while (rs.next()) {
+                    int adminno = rs.getInt(1);
+                    String adminname = rs.getString(2);
+                    String description = rs.getString(3);
+                    
+                    out.println("	<tr>\n" +
+"						<td>"+adminno+"</td>\n" +
+"						<td>"+adminname+"</td>\n" +
+"                                               <td>"+description+"</td>\n" +
+"					</tr>\n");
+                }
+                out.println("</tbody>\n" +
+"			</table>\n" +
+"		</div>");
+            } catch (Exception ex) {
+                System.out.println("" + ex);
+            }
             
-            response.sendRedirect("index.jsp");
+            out.println("<br>");
+            out.println("<div class=\"container\">");
+            out.println("<button class=\"btn waves-effect waves-light\" type=\"submit\" name=\"action\">Submit</button>");
+            out.println("</div>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

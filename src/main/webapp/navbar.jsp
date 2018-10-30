@@ -22,8 +22,11 @@
         <script src = "js/materialize.min.js"></script> 
         <%
             String adminname = "";
-            if (session.getAttribute("adminname") != null) {
+            if (session.getAttribute("adminname") != null && session.getAttribute("adminno") != null) {
                 adminname = (String) session.getAttribute("adminname");
+            } else {
+//                request.setAttribute("warning", "Session timed out, please login again");
+//                request.getRequestDispatcher("adminlogin.jsp").forward(request, response);
             }
         %>
     </head>
@@ -46,12 +49,12 @@
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="badges.html">About</a></li>
                         <%
-                                if (adminname != null) {
-                                    out.println("<li><a href='account.jsp'>" + adminname + "</a></li>");
-                                    out.println("<li><a href='LogoutServ'>Logout</a></li>");
-                                } else {
-                                    out.println("<li><a href='adminlogin.jsp'>Login</a></li>");
-                                }
+                            if (adminname != null) {
+                                out.println("<li><a href='account.jsp'>" + adminname + "</a></li>");
+                                out.println("<li><a href='LogoutServ'>Logout</a></li>");
+                            } else {
+                                out.println("<li><a href='adminlogin.jsp'>Login</a></li>");
+                            }
                         %>
                 </ul>
             </div>
@@ -61,8 +64,7 @@
         $(document).ready(function () {
             $('.sidenav').sidenav();
             $('.modal').modal();
-            $('.modal').modal('open');
+            $('select').formSelect();
         });
-
     </script>
 </html>
