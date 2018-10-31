@@ -64,7 +64,7 @@
                                 + "						<td>" + subject + "</td>\n"
                                 + "                                               <td>" + content + "</td>\n"
                                 + "                                               <td>" + dbadminname + "</td>\n"
-                                + "                                               <td>  <a class=\"waves-effect waves-light btn modal-trigger\" href=\"#" + notno + "\">Modal</a></td>\n"
+                                + "                                               <td>  <a class=\"waves-effect waves-light btn modal-trigger\" href=\"#" + notno + "\">View in full</a></td>\n"
                                 + "					</tr>\n");
                         out.println("  <div id=\"" + notno + "\" class=\"modal modal-fixed-footer\">"
                                 + "<div class=\"modal-content\">"

@@ -57,7 +57,7 @@ and open the template in the editor.
                                         int typeno = rs.getInt(1);
                                         String typename = rs.getString(2);
                                         String description = rs.getString(3);
-                                        
+
                                         out.println("<option value='" + typeno + "'>" + typename + "</option>");
                                     }
                                 } catch (Exception ex) {
@@ -79,10 +79,10 @@ and open the template in the editor.
                     <div class="file-field input-field col s8">
                         <div class="btn">
                             <span>Image</span>
-                            <input name="notimage" type="file" accept="image/*" required>
+                            <input name="notimage" type="file" accept="image/*">
                         </div>
                         <div class="file-path-wrapper col s8">
-                            <input class="file-path validate" type="text" required>
+                            <input class="file-path validate" type="text">
                         </div>
                     </div>
                 </div>
@@ -96,8 +96,18 @@ and open the template in the editor.
                         <input name="schnottime" type="text" class="timepicker">
                         <label for="schnottime">At what time?</label>
                     </div>
-
                 </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <button class="btn waves-effect waves-light" type="submit" name="UploadServlet">Broadcast Now
+                            <i class="material-icons right">send</i>
+                        </button>
+                        <button class="btn waves-effect waves-light" type="submit" name="UploadServlet">Schedule for later
+                            <i class="material-icons right">alarm</i>
+                        </button>
+                    </div>
+                </div>	
+            </form>
         </div>
     </div>
 </body>
