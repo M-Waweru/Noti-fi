@@ -12,12 +12,12 @@ and open the template in the editor.
 <html>
     <head>
         <title>Create Notification</title>
-        <meta name = "viewport" content = "width = device-width, initial-scale = 1">  
+        <meta name="viewport" content="width = device-width, initial-scale = 1">
         <!-- <link rel="stylesheet" type="text/css" href="styles.css">     -->
-        <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel = "stylesheet" href = "css/materialize.min.css">
-        <script type = "text/javascript" src = "js/jquery-3.1.1.min.js"></script>           
-        <script type = "text/javascript" src = "js/materialize.min.js"></script> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="css/materialize.min.css">
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
         <script type="text/javascript" src="js/datepicker.js"></script>
 
         <%!
@@ -30,7 +30,7 @@ and open the template in the editor.
     <body>
         <%@ include file="navbar.jsp" %>
         <div class="container">
-            <form method="POST" action="UploadServlet" class="col s12" enctype = "multipart/form-data">
+            <form method="POST" action="UploadServlet" class="col s12" enctype="multipart/form-data">
                 <div class="row">
                     <h3>Broadcast a Notification</h3>
                     <p>Enter notification details below</p>
@@ -47,7 +47,7 @@ and open the template in the editor.
                         <i class="material-icons prefix">class</i>
                         <select name="nottype" required>
                             <option value="" disabled selected>Choose your option</option>
-                            <%                                conn = conman.getConnection();
+                            <% conn = conman.getConnection();
                                 try {
                                     String adminsql = "select * from notification_type";
                                     stmt = conn.createStatement();
@@ -67,7 +67,7 @@ and open the template in the editor.
                         </select>
                         <label>Notification Type</label>
                     </div>
-                </div>                
+                </div>
                 <div class="row">
                     <div class="input-field col s8">
                         <i class="material-icons prefix">mode_edit</i>
@@ -79,10 +79,10 @@ and open the template in the editor.
                     <div class="file-field input-field col s8">
                         <div class="btn">
                             <span>Image</span>
-                            <input name="notimage" type="file" accept="image/*">
+                            <input name="notimage" type="file" accept="image/*" required>
                         </div>
                         <div class="file-path-wrapper col s8">
-                            <input class="file-path validate" type="text">
+                            <input class="file-path validate" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -98,16 +98,14 @@ and open the template in the editor.
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s6">
-                        <button class="btn waves-effect waves-light" type="submit" name="UploadServlet">Broadcast Now
-                            <i class="material-icons right">send</i>
-                        </button>
-                        <button class="btn waves-effect waves-light" type="submit" name="UploadServlet">Schedule for later
-                            <i class="material-icons right">alarm</i>
-                        </button>
-                    </div>
-                </div>	
-            </form>
+                    <button class="btn waves-effect waves-light" type="submit" name="now" value="Broadcast Now">Broadcast Now
+                        <i class="material-icons right">send</i>
+                    </button>
+                    <button class="btn waves-effect waves-light" type="submit" name="later" value="Schedule">Schedule
+                        Notification
+                        <i class="material-icons right">alarm</i>
+                    </button>
+                </div>
         </div>
     </div>
 </body>
