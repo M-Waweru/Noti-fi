@@ -66,7 +66,12 @@
                         + "<p>" + content + "</p>"
                         + "</div>"
                         + "<div class=\"modal-footer\">"
-                        + "<a href=\"\" class=\"modal-close waves-effect waves-green btn-flat\">Agree</a>"
+                        + "<form action='Settings' method='POST'>"
+                        + "<div class='input-field'>"
+                        + "<button class='btn waves-effect waves-light red' type='submit' name='deletenot' value='"+notno+"'>Delete"
+                        + "</button>"
+                        + "</div>"
+                        + "</form>"
                         + "</div>"
                         + "</div>");
             }

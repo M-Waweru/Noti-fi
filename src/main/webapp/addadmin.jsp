@@ -8,7 +8,6 @@
 <%@page import="java.sql.Connection" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.Statement" %>
-<<<<<<< HEAD
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -100,5 +99,6 @@
             </div>
             <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
             <script type="text/javascript" src="js/materialize.min.js"></script>
+        </div>
     </body>
 </html>

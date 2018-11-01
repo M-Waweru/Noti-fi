@@ -96,12 +96,19 @@ public class Settings extends HttpServlet {
                     String hashednewpass = changepwd.hashPassword(newpass);
 
                     String updatesql = "INSERT INTO `admins`(`Admin No`, `Admin Name`, `Description`, `Admin Password`)"
-                            + " VALUES ("+null+",'"+addusername+"','"+adddesc+"','"+hashednewpass+"')";
+                            + " VALUES (" + null + ",'" + addusername + "','" + adddesc + "','" + hashednewpass + "')";
                     stmt.executeUpdate(updatesql);
 
                     request.setAttribute("message", "You have successfully added a user");
                     request.getRequestDispatcher("successmodal.jsp").forward(request, response);
                 }
+            } else if (request.getParameter("deletenot") != null) {
+                String notno = request.getParameter("deletenot");
+
+                String sql = "DELETE FROM `notifications` WHERE `Notification No` = " + notno + ";";
+                stmt.executeUpdate(sql);
+
+                request.getRequestDispatcher("notifications.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
