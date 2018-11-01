@@ -4,19 +4,18 @@
     Author     : Mathenge
 --%>
 
-<%@page import="java.sql.*"%>
 <%@page import="databaseconnect.ConnectionManager"%>
+<%@page import="java.sql.Connection"%>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Statement" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
         <title>Notifications</title>
-        <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
-        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-        <meta name = "viewport" content = "width = device-width, initial-scale = 1">  
-        <!-- <link rel="stylesheet" type="text/css" href="styles.css">     -->
         <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
-        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
     </head>
     <body>
         <%@ include file="navbar.jsp" %>
@@ -86,10 +85,12 @@
                     ex.printStackTrace();
                 }
             %>
+                <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+                <script type="text/javascript" src="js/materialize.min.js"></script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('.modal').modal();
+                    });
+                </script>
     </body>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.modal').modal();
-        });
-    </script>
 </html>

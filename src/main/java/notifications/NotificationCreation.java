@@ -5,26 +5,23 @@
  */
 package notifications;
 
-import java.sql.*;
-import java.time.*;
 import databaseconnect.ConnectionManager;
-import java.util.*;
-import java.io.*;
+
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author mathe
  */
-public class NotificationCreation {
+class NotificationCreation {
 
     private Connection conn = null;
     private PreparedStatement prstmt = null;
     private Statement stmt = null;
     private ResultSet rs = null;
 
-    public NotificationCreation(String subject, String content, int adminno, int type, String datecreated, String imagedir) {
+    NotificationCreation(String subject, String content, int adminno, int type, String datecreated, String imagedir) {
         ConnectionManager conman = new ConnectionManager();
         conn = conman.getConnection();
 
@@ -47,7 +44,7 @@ public class NotificationCreation {
         }
     }
 
-    public int getNotificationNo() {
+    int getNotificationNo() {
         try {
             ConnectionManager conman = new ConnectionManager();
             conn = conman.getConnection();

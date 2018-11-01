@@ -151,9 +151,7 @@ public class UploadServlet extends HttpServlet {
                 notifi.saveNotification();
                 request.setAttribute("message", "You have successfully sent this notification to Openfire for broadcast");
                 request.getRequestDispatcher("successmodal.jsp").forward(request, response);
-            } catch (InterruptedException | SmackException | XMPPException ex) {
-                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException | ServletException ex) {
+            } catch (InterruptedException | SmackException | XMPPException | IOException | ServletException ex) {
                 Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

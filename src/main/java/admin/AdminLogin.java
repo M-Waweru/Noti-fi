@@ -6,8 +6,9 @@
 package admin;
 
 import databaseconnect.ConnectionManager;
-import secure.*;
+import secure.Bcrypting;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
 
 /**
  * @author Mathenge
@@ -47,8 +47,8 @@ public class AdminLogin extends HttpServlet {
             String username = request.getParameter("name");
             String password = request.getParameter("pwd");
 
-            ConnectionManager conman = new ConnectionManager();
-            conn = conman.getConnection();
+            ConnectionManager connectionManager = new ConnectionManager();
+            conn = connectionManager.getConnection();
             Bcrypting checkpwd = new Bcrypting();
             try {
                 String sql = "SELECT * FROM `admins` WHERE `Admin Name`=?";
@@ -61,7 +61,7 @@ public class AdminLogin extends HttpServlet {
                     String dbsalt = rs.getString(5);
                     System.out.println("" + dbsalt);
 
-                    if (checkpwd.checkPassword(password, dbpassword) == true) {
+                    if (checkpwd.checkPassword(password, dbpassword)) {
                         int userno = rs.getInt(1);
                         HttpSession session = request.getSession();
 
@@ -76,9 +76,9 @@ public class AdminLogin extends HttpServlet {
                         rs.forward(request, response);
                     }
                 } else {
-                        request.setAttribute("warning1", "Username not found, try again");
-                        RequestDispatcher rs = request.getRequestDispatcher("adminlogin.jsp");
-                        rs.forward(request, response);
+                    request.setAttribute("warning1", "Username not found, try again");
+                    RequestDispatcher rs = request.getRequestDispatcher("adminlogin.jsp");
+                    rs.forward(request, response);
                 }
             } catch (SQLException ex) {
                 out.println(ex);
