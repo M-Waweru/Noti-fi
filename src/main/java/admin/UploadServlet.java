@@ -35,6 +35,7 @@ public class UploadServlet extends HttpServlet {
 
     private String xmppServerUsername = null;
     private String xmppServerPassword = null;
+    private String fileNameFromRequest;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -58,8 +59,8 @@ public class UploadServlet extends HttpServlet {
         String content = request.getParameter("notcontent");
         final String path = AdminUtils.getImagesFolderPath();
         final Part filePart = request.getPart("notimage");
-        final String fileName = AdminUtils.getFileName(filePart);
-        String imagedir = path + File.separator + fileName;
+        fileNameFromRequest = AdminUtils.getFileName(filePart);
+        String imagedir = path + File.separator + fileNameFromRequest;
 
         String scheduledate = request.getParameter("schnotdate");
         String scheduletime = request.getParameter("schnottime");
@@ -73,7 +74,7 @@ public class UploadServlet extends HttpServlet {
         final PrintWriter writer = response.getWriter();
 
         try {
-            File file = new File(path + File.separator + fileName);
+            File file = new File(path + File.separator + fileNameFromRequest);
             out = new FileOutputStream(file);
             filecontent = filePart.getInputStream();
 
@@ -83,9 +84,9 @@ public class UploadServlet extends HttpServlet {
             while ((read = filecontent.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
-            writer.println("New file " + fileName + " created at " + path);
+            writer.println("New file " + fileNameFromRequest + " created at " + path);
             LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
-                    new Object[]{fileName, path});
+                    new Object[]{fileNameFromRequest, path});
             writer.println("" + imagedir);
             publishMessage(request, response, subject, content, type, adminno, imagedir, scheduledate, scheduletime);
 
@@ -118,7 +119,7 @@ public class UploadServlet extends HttpServlet {
         if (request.getParameter("later") != null) {
             long timeDelay = AdminUtils.getDateFromRequest(scheduledate, scheduletime);
 
-            Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
+            Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), fileNameFromRequest);
             int notifino = notifi.saveNotification();
 
             try {
@@ -147,7 +148,7 @@ public class UploadServlet extends HttpServlet {
             try {
                 publisher = new Publisher(xmppServerUsername, xmppServerPassword);
                 publisher.publish(subject, content, imagedir);
-                Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
+                Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), fileNameFromRequest);
                 notifi.saveNotification();
                 request.setAttribute("message", "You have successfully sent this notification to Openfire for broadcast");
                 request.getRequestDispatcher("successmodal.jsp").forward(request, response);

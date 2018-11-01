@@ -20,7 +20,7 @@
         private ResultSet nextrs = null;
         ConnectionManager conman = new ConnectionManager();
     %>
-    <%            conn = conman.getConnection();
+    <% conn = conman.getConnection();
         try {
             String notifisql = "select * from notifications order by `Notification No` desc";
             stmt = conn.createStatement();
@@ -62,8 +62,11 @@
                         + "<h4>Subject: " + subject + "</h4>"
                         + "<hr>"
                         + "<h5>Written by: " + dbadminname + "</h5>"
-                        + "<img class=\"responsive-img\" src=\"" + imagedir + "\">"
-                        + "<p>" + content + "</p>"
+                );
+                if (imagedir != null) {
+                    out.println("<img class=\"responsive-img\" src=\"/files/" + imagedir + "\">");
+                }
+                out.println("<p>" + content + "</p>"
                         + "</div>"
                         + "<div class=\"modal-footer\">"
                         + "<a href=\"\" class=\"modal-close waves-effect waves-green btn-flat\">Agree</a>"
@@ -76,7 +79,7 @@
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    %>      
+    %>
 </div>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
