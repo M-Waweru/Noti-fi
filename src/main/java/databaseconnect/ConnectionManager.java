@@ -28,7 +28,7 @@ public class ConnectionManager {
         try {
             Class.forName(driverName);
             try {
-                getPropValues();
+                getDbCredentials();
                 con = DriverManager.getConnection(url, username, password);
             } catch (SQLException ex) {
                 // log an exception. fro example:
@@ -44,7 +44,7 @@ public class ConnectionManager {
         return con;
     }
 
-    private void getPropValues() throws IOException {
+    private void getDbCredentials() throws IOException {
         Properties prop = new Properties();
         String propFileName = "config" + File.separator + "dbconfig.properties";
 
@@ -55,10 +55,5 @@ public class ConnectionManager {
             username = prop.getProperty("username");
             password = prop.getProperty("password");
         }
-    }
-
-    public static void main(String[] args) {
-        ConnectionManager conman = new ConnectionManager();
-        conman.getConnection();
     }
 }

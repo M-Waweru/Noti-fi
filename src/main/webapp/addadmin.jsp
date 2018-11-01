@@ -4,16 +4,16 @@
     Author     : Mathenge
 --%>
 
-<%@page import="java.sql.*"%>
 <%@page import="databaseconnect.ConnectionManager"%>
+<%@page import="java.sql.Connection"%>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Statement" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Add admin</title>
         <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
-        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-        <script type="text/javascript" src="js/materialize.min.js"></script>
     </head>
     <body>
                 <%@ include file="checklogin.jsp" %>
@@ -63,6 +63,8 @@
             <br>
             <div class="container">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-            </div>   
+            </div>
+                <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+                <script type="text/javascript" src="js/materialize.min.js"></script>
     </body>
 </html>

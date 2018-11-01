@@ -3,7 +3,7 @@ package broadcast;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class AppExecutors {
+class AppExecutors {
     private static final Object LOCK = new Object();
     private static AppExecutors sInstance;
     private final Executor diskIO;
@@ -14,7 +14,7 @@ public class AppExecutors {
         this.networkIO = networkIO;
     }
 
-    public static AppExecutors getInstance() {
+    static AppExecutors getInstance() {
         if (sInstance == null) {
             synchronized (LOCK) {
                 sInstance = new AppExecutors(Executors.newSingleThreadExecutor(),
@@ -24,11 +24,11 @@ public class AppExecutors {
         return sInstance;
     }
 
-    public Executor getDiskIO() {
+    Executor getDiskIO() {
         return diskIO;
     }
 
-    public Executor getNetworkIO() {
+    Executor getNetworkIO() {
         return networkIO;
     }
 }

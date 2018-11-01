@@ -25,9 +25,8 @@ public class Bcrypting {
      */
     public String hashPassword(String password_plaintext) {
         String salt = BCrypt.gensalt(workload);
-        String hashed_password = BCrypt.hashpw(password_plaintext, salt);
 
-        return (hashed_password);
+        return (BCrypt.hashpw(password_plaintext, salt));
     }
 
     /**

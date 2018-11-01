@@ -107,7 +107,7 @@ and open the template in the editor.
                         <i class="material-icons right">alarm</i>
                     </button>
                 </div>
+            </form>
         </div>
-    </div>
 </body>
 </html>

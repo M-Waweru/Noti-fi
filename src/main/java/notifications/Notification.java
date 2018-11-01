@@ -5,12 +5,10 @@
  */
 package notifications;
 
-import java.time.*;
-import java.util.*;
-import java.io.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
- *
  * @author mathe
  */
 public class Notification implements Serializable {
@@ -36,9 +34,6 @@ public class Notification implements Serializable {
         return notificationno;
     }
 
-//    public static void main(String[] args) {
-//        new Notification("Hello", "Hello", 1, 1);
-//    }
     public String getSubject() {
         return subject;
     }
@@ -59,7 +54,7 @@ public class Notification implements Serializable {
         return datecreated;
     }
 
-    public String generateDateCreated() {
+    private String generateDateCreated() {
         LocalDateTime ldt = LocalDateTime.now();
         return ldt.toString();
     }

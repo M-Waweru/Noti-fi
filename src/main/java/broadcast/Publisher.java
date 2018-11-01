@@ -67,12 +67,9 @@ public class Publisher {
         }
         final PayloadItem<SimplePayload> item = getPublishPayload(subject, content, imagedir);
 
-        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                Scheduler scheduler = new Scheduler();
-                scheduler.schedulePublish(leafNode, delayInMilliseconds, item);
-            }
+        AppExecutors.getInstance().getDiskIO().execute(() -> {
+            Scheduler scheduler = new Scheduler();
+            scheduler.schedulePublish(leafNode, delayInMilliseconds, item);
         });
     }
 
@@ -95,11 +92,6 @@ public class Publisher {
             File file = new File(imagedir);
             String imageBase64 = encodeFileToBase64Binary(file);
 
-            LeafNode leafNode;
-            String msg = "" + subject + "\n"
-                    + "\t\n"
-                    + "\t\n" + content;
-
             StandardExtensionElement extFileNameBuilder = StandardExtensionElement.builder(
                     "file", "jabber:client")
                     .addElement("base64Bin", imageBase64)
@@ -109,7 +101,6 @@ public class Publisher {
             message.addExtension(extFileNameBuilder);
         } 
 
-//        String xmlMsg = "<message xmlns='pubsub:test:test'>" + msg + "</message>";
         SimplePayload payload = new SimplePayload(message.toXML("").toString());
         return new PayloadItem<>("5", payload);
     }

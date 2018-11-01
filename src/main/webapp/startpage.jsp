@@ -3,27 +3,8 @@
     Created on : Oct 13, 2018, 6:04:01 PM
     Author     : Mathenge
 --%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "java.io.*,java.util.*" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Notifications Page</title>
-        <meta charset="UTF-8">
-        <meta name = "viewport" content = "width = device-width, initial-scale = 1">  
-        <!-- <link rel="stylesheet" type="text/css" href="styles.css">     -->
-        <link rel = "stylesheet"
-              href = "https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel = "stylesheet"
-              href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
-        <script type = "text/javascript"
-        src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
-        <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-    </head>
-    <body>
-        <%@ include file="checklogin.jsp" %>
-        <%@ include file="navbar.jsp" %>
+<%@ include file="checklogin.jsp" %>
+<%@ include file="navbar.jsp" %>
         <div class="container">
             <div class="row">
                 <div>
@@ -80,5 +61,7 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
     </body>
 </html>

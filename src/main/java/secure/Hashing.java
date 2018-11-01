@@ -1,15 +1,11 @@
 package secure;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+  @author Mathenge
  */
 
-/**
- *
- * @author Mathenge
- */
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -18,26 +14,23 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-
 public class Hashing {
 
-    public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt)
+    private boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         // Encrypt the clear-text password using the same salt that was used to
         // encrypt the original password
         byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
-        System.out.println("Hasheduserpwd"+encryptedAttemptedPassword);
-        System.out.println("hasheddbpwd"+encryptedPassword);
-        System.out.println("salt"+salt);
+        System.out.println("Hasheduserpwd" + Arrays.toString(encryptedAttemptedPassword));
+        System.out.println("hasheddbpwd" + Arrays.toString(encryptedPassword));
+        System.out.println("salt" + Arrays.toString(salt));
 
         // Authentication succeeds if encrypted password that the user entered
         // is equal to the stored hash
         return Arrays.equals(encryptedPassword, encryptedAttemptedPassword);
     }
 
-    public byte[] getEncryptedPassword(String password, byte[] salt)
+    private byte[] getEncryptedPassword(String password, byte[] salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         // PBKDF2 with SHA-1 as the hashing algorithm. Note that the NIST
         // specifically names SHA-1 as an acceptable hashing algorithm for PBKDF2
@@ -58,7 +51,7 @@ public class Hashing {
         return f.generateSecret(spec).getEncoded();
     }
 
-    public byte[] generateSalt() throws NoSuchAlgorithmException {
+    private byte[] generateSalt() throws NoSuchAlgorithmException {
         // VERY important to use SecureRandom instead of just Random
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 
@@ -74,18 +67,16 @@ public class Hashing {
         try {
             byte[] salt = pwd.generateSalt();
             byte[] hashedpwd = pwd.getEncryptedPassword("1234", salt);
-            
-            if (pwd.authenticate("1234", hashedpwd, salt)==true){
+
+            if (pwd.authenticate("1234", hashedpwd, salt)) {
                 System.out.println("Success");
-                System.out.println("Hashed"+hashedpwd);
-                System.out.println("salt"+salt);
+                System.out.println("Hashed" + Arrays.toString(hashedpwd));
+                System.out.println("salt" + Arrays.toString(salt));
             } else {
                 System.out.println("Fail");
             }
-            
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Hashing.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeySpecException ex) {
+
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             Logger.getLogger(Hashing.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

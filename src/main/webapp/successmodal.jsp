@@ -8,14 +8,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Successful</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-        <script type="text/javascript" src="js/materialize.min.js"></script>
     </head>
     <body>
         <%@ include file="navbar.jsp" %>
@@ -28,12 +24,13 @@
                 <a href="startpage.jsp" class="modal-close waves-effect waves-green btn-flat">Agree</a>
             </div>
         </div>
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // $('.modal').modal();
+                $('.modal').modal('open');
+            });
+        </script>
     </body>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.modal').modal();
-            $('.modal').modal('open');
-        });
-
-    </script>
 </html>
