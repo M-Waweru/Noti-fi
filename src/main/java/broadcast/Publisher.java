@@ -87,27 +87,27 @@ public class Publisher {
     }
 
     private PayloadItem<SimplePayload> getPublishPayload(String subject, String content, String imagedir) {
-        File file = new File(imagedir);
-        String imageBase64 = encodeFileToBase64Binary(file);
-
-        LeafNode leafNode;
-        String msg = "" + subject + "\n"
-                + "\t\n"
-                + "\t\n" + content;
-
-
-        StandardExtensionElement extFileNameBuilder = StandardExtensionElement.builder(
-                "file", "jabber:client")
-                .addElement("base64Bin", imageBase64)
-                .addAttribute("name", file.getName())
-                .addAttribute("size", "" + sizeOfImageInBytes)
-                .build();
-
         Message message = new Message();
         message.setStanzaId();
         message.setSubject(subject);
         message.setBody(content);
-        message.addExtension(extFileNameBuilder);
+        if (imagedir != null) {
+            File file = new File(imagedir);
+            String imageBase64 = encodeFileToBase64Binary(file);
+
+            LeafNode leafNode;
+            String msg = "" + subject + "\n"
+                    + "\t\n"
+                    + "\t\n" + content;
+
+            StandardExtensionElement extFileNameBuilder = StandardExtensionElement.builder(
+                    "file", "jabber:client")
+                    .addElement("base64Bin", imageBase64)
+                    .addAttribute("name", file.getName())
+                    .addAttribute("size", "" + sizeOfImageInBytes)
+                    .build();
+            message.addExtension(extFileNameBuilder);
+        }
 
 //        String xmlMsg = "<message xmlns='pubsub:test:test'>" + msg + "</message>";
         SimplePayload payload = new SimplePayload(message.toXML("").toString());

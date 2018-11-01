@@ -45,13 +45,13 @@ public class UploadServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request,
-                                  HttpServletResponse response)
+            HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -92,42 +92,7 @@ public class UploadServlet extends HttpServlet {
             LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
                     new Object[]{fileName, path});
             writer.println("" + imagedir);
-
-            Publisher publisher = null;
-            if (request.getParameter("later") != null) {
-                long timeDelay = getDateFromRequest(scheduledate, scheduletime);
-
-                Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
-                int notifino = notifi.saveNotification();
-
-                try {
-                    publisher = new Publisher(xmppServerUsername, xmppServerPassword);
-                    publisher.schedulePublish(subject, content, imagedir, timeDelay);
-                } catch (InterruptedException | SmackException | XMPPException e) {
-                    e.printStackTrace();
-                }
-
-                if (notifino > 0) {
-                    ScheduleCreation schedulenotifi = new ScheduleCreation(notifino, scheduledate);
-
-                    if (schedulenotifi.saveSchedule()) {
-                        request.setAttribute("message", "You have successfully scheduled this notification");
-                        request.getRequestDispatcher("successmodal.jsp").forward(request, response);
-                    }
-                }
-
-            } else {
-                try {
-                    publisher = new Publisher(xmppServerUsername, xmppServerPassword);
-                    publisher.publish(subject, content, imagedir);
-                    Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
-                    notifi.saveNotification();
-                    request.setAttribute("message", "You have successfully sent this notification to Openfire for broadcast");
-                    request.getRequestDispatcher("successmodal.jsp").forward(request, response);
-                } catch (InterruptedException | SmackException | XMPPException ex) {
-                    Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            publishMessage(request, response, subject, content, type, adminno, imagedir, scheduledate, scheduletime);
 
         } catch (FileNotFoundException e) {
             writer.println("You either did not specify a file to upload or are "
@@ -137,6 +102,7 @@ public class UploadServlet extends HttpServlet {
 
             LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
                     new Object[]{e.getMessage()});
+            publishMessage(request, response, subject, content, type, adminno, null, scheduledate, scheduletime);
         } finally {
             if (out != null) {
                 out.close();
@@ -149,6 +115,57 @@ public class UploadServlet extends HttpServlet {
             }
         }
 
+    }
+
+    private void publishMessage(HttpServletRequest request, HttpServletResponse response, String subject, String content, String type, int adminno, 
+            String imagedir, String scheduledate, String scheduletime) {
+        Publisher publisher = null;
+        if (request.getParameter("later") != null) {
+            long timeDelay = getDateFromRequest(scheduledate, scheduletime);
+
+            Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
+            int notifino = notifi.saveNotification();
+
+            try {
+                publisher = new Publisher(xmppServerUsername, xmppServerPassword);
+                publisher.schedulePublish(subject, content, imagedir, timeDelay);
+            } catch (InterruptedException | SmackException | XMPPException e) {
+                e.printStackTrace();
+            } catch (IOException ex) {
+                Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (notifino > 0) {
+                ScheduleCreation schedulenotifi = new ScheduleCreation(notifino, scheduledate);
+
+                if (schedulenotifi.saveSchedule()) {
+                    try {
+                        request.setAttribute("message", "You have successfully scheduled this notification");
+                        request.getRequestDispatcher("successmodal.jsp").forward(request, response);
+                    } catch (ServletException ex) {
+                        Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
+        } else {
+            try {
+                publisher = new Publisher(xmppServerUsername, xmppServerPassword);
+                publisher.publish(subject, content, imagedir);
+                Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
+                notifi.saveNotification();
+                request.setAttribute("message", "You have successfully sent this notification to Openfire for broadcast");
+                request.getRequestDispatcher("successmodal.jsp").forward(request, response);
+            } catch (InterruptedException | SmackException | XMPPException ex) {
+                Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ServletException ex) {
+                Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private long getDateFromRequest(String scheduleDayString, String scheduleTimeString) {
@@ -200,14 +217,13 @@ public class UploadServlet extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -218,10 +234,10 @@ public class UploadServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

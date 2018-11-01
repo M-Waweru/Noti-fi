@@ -79,10 +79,10 @@ and open the template in the editor.
                     <div class="file-field input-field col s8">
                         <div class="btn">
                             <span>Image</span>
-                            <input name="notimage" type="file" accept="image/*" required>
+                            <input name="notimage" type="file" accept="image/*">
                         </div>
                         <div class="file-path-wrapper col s8">
-                            <input class="file-path validate" type="text" required>
+                            <input class="file-path validate" type="text">
                         </div>
                     </div>
                 </div>
