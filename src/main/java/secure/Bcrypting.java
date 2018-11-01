@@ -62,10 +62,12 @@ public class Bcrypting {
     public static void main(String[] args) {
         String testpwd = "1234";
         String hashedpwd = null;
+        
+        Bcrypting pwd = new Bcrypting();
 
-//        hashedpwd = hashPassword(testpwd);
-//        System.out.println(""+hashedpwd);
-//        System.out.println(""+checkPassword("1234", hashedpwd));
+        hashedpwd = pwd.hashPassword(testpwd);
+        System.out.println(""+hashedpwd);
+        System.out.println(""+pwd.checkPassword("1234", hashedpwd));
 
     }
 

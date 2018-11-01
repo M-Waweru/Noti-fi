@@ -16,6 +16,7 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
     </head>
     <body>
+                <%@ include file="checklogin.jsp" %>
         <%@ include file="navbar.jsp" %>
         <div class="container">
             <%!

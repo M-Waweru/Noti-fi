@@ -22,6 +22,7 @@
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
     </head>
     <body>
+        <%@ include file="checklogin.jsp" %>
         <%@ include file="navbar.jsp" %>
         <div class="container">
             <div class="row">

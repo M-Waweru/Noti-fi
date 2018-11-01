@@ -28,6 +28,7 @@ and open the template in the editor.
         %>
     </head>
     <body>
+        <%@ include file="checklogin.jsp" %>
         <%@ include file="navbar.jsp" %>
         <div class="container">
             <form method="POST" action="UploadServlet" class="col s12" enctype="multipart/form-data">

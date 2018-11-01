@@ -7,13 +7,17 @@ package admin;
 
 import broadcast.*;
 import databaseconnect.ConnectionManager;
+import secure.Bcrypting;
 import java.sql.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -39,7 +43,48 @@ public class Settings extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            
+            HttpSession session = request.getSession();
+
+            ConnectionManager conman = new ConnectionManager();
+            conn = conman.getConnection();
+            stmt = conn.createStatement();
+
+            if (request.getParameter("changepass") != null) {
+                String newpass = request.getParameter("pwd1");
+                Bcrypting changepwd = new Bcrypting();
+                String hashednewpass = changepwd.hashPassword(newpass);
+
+                String sql = "UPDATE `admins` SET `Admin Password`= '" + hashednewpass + "' WHERE `Admin Name`= '" + session.getAttribute("adminname") + "'";
+                stmt.executeUpdate(sql);
+                request.setAttribute("message", "You have successfully changed your password");
+                request.getRequestDispatcher("successmodal.jsp").forward(request, response);
+            } else if (request.getParameter("changename") != null) {
+                String newusername = request.getParameter("username");
+                String querysql = "select * from admins where `Admin Name` = '" + newusername + "'";
+                rs = stmt.executeQuery(querysql);
+
+                if (rs.next()) {
+                    request.setAttribute("warning", "Username already exists");
+                    request.getRequestDispatcher("account.jsp#changeusername").forward(request, response);
+                } else {
+                    String updatesql = "UPDATE `admins` SET `Admin Name`= '" + newusername + "' WHERE `Admin Name`= '" + session.getAttribute("adminname") + "'";
+                    stmt.executeUpdate(updatesql);
+                    request.removeAttribute("adminname");
+                    request.setAttribute("adminname", newusername);
+                    request.setAttribute("message", "You have successfully changed your username");
+                    request.getRequestDispatcher("successmodal.jsp").forward(request, response);
+                }
+            } else if (request.getParameter("changedesc") != null) {
+                String newdesc = request.getParameter("desc");
+                String updatesql = "UPDATE `admins` SET `Description`= '" + newdesc + "' WHERE `Admin Name`= '" + session.getAttribute("adminname") + "'";
+                stmt.executeUpdate(updatesql);
+                request.setAttribute("message", "You have successfully changed your description");
+                request.getRequestDispatcher("successmodal.jsp").forward(request, response);
+            } else {
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

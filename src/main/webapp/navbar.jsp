@@ -44,7 +44,7 @@
                 <a href="startpage.jsp" class="brand-logo">Admin Module</a>
                 <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="index.jsp #about">About</a></li>
+                    <li><a href="index.jsp#about">About</a></li>
                         <%
                             if (adminname != null) {
                                 out.println("<li><a href='account.jsp'>" + adminname + "</a></li>");

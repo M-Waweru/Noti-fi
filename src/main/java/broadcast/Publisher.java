@@ -107,7 +107,7 @@ public class Publisher {
                     .addAttribute("size", "" + sizeOfImageInBytes)
                     .build();
             message.addExtension(extFileNameBuilder);
-        }
+        } 
 
 //        String xmlMsg = "<message xmlns='pubsub:test:test'>" + msg + "</message>";
         SimplePayload payload = new SimplePayload(message.toXML("").toString());
