@@ -4,23 +4,23 @@
     Author     : Mathenge
 --%>
 
-<%@page import="databaseconnect.ConnectionManager"%>
-<%@page import="java.sql.Connection"%>
+<%@page import="databaseconnect.ConnectionManager" %>
+<%@page import="java.sql.Connection" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.Statement" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
-        <title>Notifications</title>
-        <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
-    </head>
-    <body>
-        <%@ include file="navbar.jsp" %>
-        <div class="container">
-            <%!
+<head>
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <title>Notifications</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+</head>
+<body>
+<%@ include file="navbar.jsp" %>
+<div class="container">
+        <%!
                 private Connection conn = null;
                 private Statement stmt = null;
                 private Statement nstmt = null;
@@ -28,7 +28,7 @@
                 private ResultSet nextrs = null;
                 ConnectionManager conman = new ConnectionManager();
             %>
-            <%
+        <%
                 conn = conman.getConnection();
                 try {
                     String notifisql = "select * from notifications order by `Notification No` desc";
@@ -51,6 +51,7 @@
                         String content = rs.getString(3);
                         int adminno = rs.getInt(4);
                         String imagedir = rs.getString("Image dir");
+                        System.out.println("Image dir: ---------------" + imagedir);
                         String adminsql = "select * from `admins` where `Admin No` = " + String.valueOf(adminno);
                         nstmt = conn.createStatement();
                         nextrs = nstmt.executeQuery(adminsql);
@@ -85,12 +86,12 @@
                     ex.printStackTrace();
                 }
             %>
-                <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-                <script type="text/javascript" src="js/materialize.min.js"></script>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $('.modal').modal();
-                    });
-                </script>
-    </body>
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+    </script>
+</body>
 </html>
