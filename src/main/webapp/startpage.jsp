@@ -3,7 +3,7 @@
     Created on : Oct 13, 2018, 6:04:01 PM
     Author     : Mathenge
 --%>
-
+<%@ include file="checklogin.jsp" %>
 <%@ include file="navbar.jsp" %>
 <div class="container">
     <div class="row">

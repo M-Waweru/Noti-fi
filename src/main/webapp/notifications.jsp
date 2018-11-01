@@ -8,6 +8,7 @@
 <%@page import="java.sql.Connection" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.Statement" %>
+<%@ include file="checklogin.jsp" %>
 <%@ include file="navbar.jsp" %>
 <div class="container">
     <%!

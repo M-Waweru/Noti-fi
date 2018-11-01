@@ -99,7 +99,7 @@ public class Publisher {
                     .addAttribute("size", "" + sizeOfImageInBytes)
                     .build();
             message.addExtension(extFileNameBuilder);
-        }
+        } 
 
         SimplePayload payload = new SimplePayload(message.toXML("").toString());
         return new PayloadItem<>("5", payload);
