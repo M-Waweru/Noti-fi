@@ -12,12 +12,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Add admin</title>
+        <title>Admin List</title>
         <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
     </head>
     <body>
-                <%@ include file="checklogin.jsp" %>
+        <%@ include file="checklogin.jsp" %>
         <%@ include file="navbar.jsp" %>
+        <%            if (!adminname.equals("Admin")) {
+                response.sendRedirect("startpage.jsp?message=" + URLEncoder.encode("You don't have access to that page", "UTF-8"));
+            }
+        %>
+        <div class="container">
+            <h3>Admin Accounts Settings</h3>
+            <p><b>Add an admin</b></p>
+            <button class="waves-effect waves-light btn modal-trigger red" href="#adduser">Add form</button>        
+        </div>
         <div class="container">
             <%!
                 private Connection conn = null;
@@ -61,10 +70,34 @@
                 }
             %>
             <br>
-            <div class="container">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+            <div id="adduser" class="modal">
+                <div class="modal-content">
+                    <h4>Add user</h4>
+                    <form name="adduserform"action="Settings" method="POST">
+                        <div class="row">
+                            <div class="input-field">
+                                <label for="username">Username</label>
+                                <input type="text" name="username" required>
+                            </div>
+                            <div class="input-field">
+                                <label for="desc">Description</label>
+                                <input type="text" name="desc" required>
+                            </div>
+                        </div>
+                        <div id="usernamewarning">
+                            <p>${warning}</p>
+                        </div>
+                        <div class="row">
+                            <div class="input-field">
+                                <button class="btn waves-effect waves-light red" type="submit" name="adduser" value="adduser">Add new user
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-                <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-                <script type="text/javascript" src="js/materialize.min.js"></script>
+            <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+            <script type="text/javascript" src="js/materialize.min.js"></script>
     </body>
 </html>

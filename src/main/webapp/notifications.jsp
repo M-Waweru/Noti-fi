@@ -11,6 +11,7 @@
 <%@ include file="checklogin.jsp" %>
 <%@ include file="navbar.jsp" %>
 <div class="container">
+    <h3 class="header">List of Sent Notifications</h3>
         <%!
                 private Connection conn = null;
                 private Statement stmt = null;
@@ -79,10 +80,5 @@
             %>
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.modal').modal();
-        });
-    </script>
 </body>
 </html>

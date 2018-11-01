@@ -80,8 +80,28 @@ public class Settings extends HttpServlet {
                 stmt.executeUpdate(updatesql);
                 request.setAttribute("message", "You have successfully changed your description");
                 request.getRequestDispatcher("successmodal.jsp").forward(request, response);
-            } else {
+            } else if (request.getParameter("adduser") != null) {
+                String newusername = request.getParameter("username");
+                String querysql = "select * from admins where `Admin Name` = '" + newusername + "'";
+                rs = stmt.executeQuery(querysql);
 
+                if (rs.next()) {
+                    request.setAttribute("warning", "Username already exists");
+                    request.getRequestDispatcher("account.jsp#changeusername").forward(request, response);
+                } else {
+                    String addusername = request.getParameter("username");
+                    String adddesc = request.getParameter("desc");
+                    String newpass = addusername;
+                    Bcrypting changepwd = new Bcrypting();
+                    String hashednewpass = changepwd.hashPassword(newpass);
+
+                    String updatesql = "INSERT INTO `admins`(`Admin No`, `Admin Name`, `Description`, `Admin Password`)"
+                            + " VALUES ("+null+",'"+addusername+"','"+adddesc+"','"+hashednewpass+"')";
+                    stmt.executeUpdate(updatesql);
+
+                    request.setAttribute("message", "You have successfully added a user");
+                    request.getRequestDispatcher("successmodal.jsp").forward(request, response);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);

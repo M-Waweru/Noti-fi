@@ -58,8 +58,6 @@ public class AdminLogin extends HttpServlet {
                 if (rs.next()) {
                     String dbpassword = rs.getString(4);
                     System.out.println("" + dbpassword);
-                    String dbsalt = rs.getString(5);
-                    System.out.println("" + dbsalt);
 
                     if (checkpwd.checkPassword(password, dbpassword)) {
                         int userno = rs.getInt(1);
@@ -69,6 +67,7 @@ public class AdminLogin extends HttpServlet {
                             session.setAttribute("adminname", username);
                             session.setAttribute("adminno", userno);
                         }
+                        request.setAttribute("welcome", "You have logged in successfully");
                         response.sendRedirect("startpage.jsp");
                     } else {
                         request.setAttribute("warning2", "Incorrect password, try again");

@@ -8,11 +8,11 @@
         <div class="container">
             <div class="row">
                 <div>
-                    <%
-                        if (adminname != null) {
-                            out.println("<p>You have logged in successfully</p>");
-                        }
-                    %>
+                    <p>${welcome}</p>
+                    <p class="red-text">${param.message}</p>
+                </div>
+                <div class="container">
+                    <h3 class="header">Noti-Fi Functions</h3>
                 </div>
                 <div class="col s6 small">
                     <div class="card small sticky-action">
