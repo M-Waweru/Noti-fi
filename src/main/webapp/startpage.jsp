@@ -57,7 +57,6 @@
                     <span class="card-title activator grey-text text-darken-4">Notifications<i
                             class="material-icons right">more_vert</i></span>
                     <p><a href="notifications.jsp">Click here</a></p>
-                    >>>>>>> 42f60b0d8155910bea0e0cf3e2588af0f2c7e2ed
                 </div>
             </div>
         </div>
