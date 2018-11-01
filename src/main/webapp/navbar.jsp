@@ -59,5 +59,3 @@
                 $('select').formSelect();
             });
         </script>
-    </body>
-</html>
