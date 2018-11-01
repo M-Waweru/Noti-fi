@@ -16,11 +16,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,13 +40,13 @@ public class UploadServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request,
-            HttpServletResponse response)
+                                  HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -61,9 +56,9 @@ public class UploadServlet extends HttpServlet {
         String type = request.getParameter("nottype");
         String subject = request.getParameter("notsubject");
         String content = request.getParameter("notcontent");
-        final String path = getImagesFolderPath();
+        final String path = AdminUtils.getImagesFolderPath();
         final Part filePart = request.getPart("notimage");
-        final String fileName = getFileName(filePart);
+        final String fileName = AdminUtils.getFileName(filePart);
         String imagedir = path + File.separator + fileName;
 
         String scheduledate = request.getParameter("schnotdate");
@@ -117,11 +112,11 @@ public class UploadServlet extends HttpServlet {
 
     }
 
-    private void publishMessage(HttpServletRequest request, HttpServletResponse response, String subject, String content, String type, int adminno, 
-            String imagedir, String scheduledate, String scheduletime) {
-        Publisher publisher = null;
+    private void publishMessage(HttpServletRequest request, HttpServletResponse response, String subject, String content, String type, int adminno,
+                                String imagedir, String scheduledate, String scheduletime) {
+        Publisher publisher;
         if (request.getParameter("later") != null) {
-            long timeDelay = getDateFromRequest(scheduledate, scheduletime);
+            long timeDelay = AdminUtils.getDateFromRequest(scheduledate, scheduletime);
 
             Notification notifi = new Notification(subject, content, adminno, Integer.parseInt(type), imagedir);
             int notifino = notifi.saveNotification();
@@ -142,9 +137,7 @@ public class UploadServlet extends HttpServlet {
                     try {
                         request.setAttribute("message", "You have successfully scheduled this notification");
                         request.getRequestDispatcher("successmodal.jsp").forward(request, response);
-                    } catch (ServletException ex) {
-                        Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
+                    } catch (ServletException | IOException ex) {
                         Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -160,45 +153,9 @@ public class UploadServlet extends HttpServlet {
                 request.getRequestDispatcher("successmodal.jsp").forward(request, response);
             } catch (InterruptedException | SmackException | XMPPException ex) {
                 Logger.getLogger(BroadcastNot.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ServletException ex) {
+            } catch (IOException | ServletException ex) {
                 Logger.getLogger(UploadServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-    }
-
-    private long getDateFromRequest(String scheduleDayString, String scheduleTimeString) {
-        DateTimeFormatter scheduleDayFormat = DateTimeFormatter.ofPattern("MMM dd, yyyy");
-        LocalDate scheduleDay = LocalDate.parse(scheduleDayString, scheduleDayFormat);
-        LocalTime scheduleTime = LocalTime.parse(scheduleTimeString);
-
-        LocalDateTime scheduleDaytime = LocalDateTime.of(scheduleDay, scheduleTime);
-
-        LocalDateTime now = LocalDateTime.now();
-        return now.until(scheduleDaytime, ChronoUnit.MILLIS);
-    }
-
-    private String getFileName(final Part part) {
-        final String partHeader = part.getHeader("content-disposition");
-        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(
-                        content.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
-    }
-
-    private String getImagesFolderPath() throws IOException {
-        Properties prop = new Properties();
-        String propFileName = "config" + File.separator + "filepath.properties";
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-
-        try (InputStream resourceStream = loader.getResourceAsStream(propFileName)) {
-            prop.load(resourceStream);
-            return prop.getProperty("imagesfilepath");
         }
     }
 
@@ -217,13 +174,14 @@ public class UploadServlet extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -234,10 +192,10 @@ public class UploadServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
