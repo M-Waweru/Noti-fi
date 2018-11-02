@@ -94,5 +94,6 @@ and open the template in the editor.
         </div>
     </form>
 </div>
+<script type="text/javascript" src="js/datepicker.js"></script>
 </body>
 </html>
