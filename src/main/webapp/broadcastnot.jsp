@@ -100,5 +100,6 @@ and open the template in the editor.
 <br>
 <br>
 <br>
+<script type="text/javascript" src="js/datepicker.js"></script>
 </body>
 </html>
