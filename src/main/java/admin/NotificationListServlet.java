@@ -17,7 +17,6 @@ public class NotificationListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String imageFilePath = AdminUtils.getImagesFolderPath();
         String filename = URLDecoder.decode(request.getPathInfo().substring(1), "UTF-8");
-        System.out.println("filename:-------------------" + imageFilePath + filename);
         File file = new File(imageFilePath, filename);
         response.setHeader("Content-Type", getServletContext().getMimeType(filename));
         response.setHeader("Content-Length", String.valueOf(file.length()));
