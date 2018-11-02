@@ -63,7 +63,7 @@
                         + "<hr>"
                         + "<h5>Written by: " + dbadminname + "</h5>"
                 );
-                if (imagedir != null) {
+                if (!imagedir.equals("")) {
                     out.println("<img class=\"responsive-img\" src=\"/files/" + imagedir + "\">");
                 }
                 out.println("<p>" + content + "</p>"
