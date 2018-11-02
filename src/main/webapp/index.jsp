@@ -15,7 +15,7 @@
     }
 
     .normalcont {
-        padding: 200px;
+        padding: 100px;
     }
 
     footer {

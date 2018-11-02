@@ -73,6 +73,9 @@ and open the template in the editor.
             </div>
         </div>
         <div class="row">
+            <p class="red-text">${warning}</p>
+        </div>
+        <div class="row">
             <i class="material-icons prefix">mode_edit</i>
             <div class="input-field col s4">
                 <input name="schnotdate" type="text" class="datepicker">
@@ -94,5 +97,8 @@ and open the template in the editor.
         </div>
     </form>
 </div>
+<br>
+<br>
+<br>
 </body>
 </html>

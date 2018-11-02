@@ -24,7 +24,7 @@
         %>
         <div class="container">
             <h3>Admin Accounts Settings</h3>
-            <p><b>Add an admin</b></p>
+            <p><b>Add an admin to the system</b></p>
             <button class="waves-effect waves-light btn modal-trigger red" href="#adduser">Add form</button>        
         </div>
         <div class="container">
@@ -74,6 +74,10 @@
                 <div class="modal-content">
                     <h4>Add user</h4>
                     <form name="adduserform"action="Settings" method="POST">
+                        <div class="row">
+                            <p class="red-text">The admin you will add will only have the ability to broadcast messages and change their user settings.
+                            They cannot add admins to the system</p>
+                        </div>
                         <div class="row">
                             <div class="input-field">
                                 <label for="username">Username</label>

@@ -9,6 +9,6 @@
 <%
     String admincheck = (String) session.getAttribute("adminname");
     if (admincheck == null) {
-        response.sendRedirect("adminlogin.jsp?message=" + URLEncoder.encode("Please log in first", "UTF-8"));
+        response.sendRedirect("adminlogin.jsp?warning=" + URLEncoder.encode("Please log in first", "UTF-8"));
     }
 %>

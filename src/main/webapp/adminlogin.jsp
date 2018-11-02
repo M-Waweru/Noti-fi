@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <p class="red-text">${warning}</p>
+                    <p class="red-text">${param.warning}</p>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <button class="btn waves-effect waves-light" type="submit" name="Login">Log In
+                        <button class="btn waves-effect waves-light red" type="submit" name="Login">Log In
                             <i class="material-icons right">send</i>
                         </button>
                     </div>

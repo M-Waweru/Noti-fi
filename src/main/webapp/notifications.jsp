@@ -11,7 +11,7 @@
 <%@ include file="checklogin.jsp" %>
 <%@ include file="navbar.jsp" %>
 <div class="container">
-    <h3 class="header">List of Sent Notifications</h3>
+    <h2 class="header">Notifications Settings</h2>
     <%!
         private Connection conn = null;
         private Statement stmt = null;
